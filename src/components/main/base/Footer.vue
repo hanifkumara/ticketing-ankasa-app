@@ -1,8 +1,7 @@
 <template>
-  <div class=" container-fluid">
-
+  <footer class=" container-fluid">
     <div class="container">
-      <div class="row">
+      <section class="row">
         <!-- Title Footer -->
         <div class="title-footer col-12 col-sm-6 col-lg-3">
           <!-- Logo -->
@@ -13,8 +12,8 @@
           <!-- Slogan -->
           <h5>Find your Flight and explore the world with us. We will take care of the rest</h5>
         </div>
-        <div class="col-lg-1 d-none d-lg-block"></div>
         <!-- Feature -->
+        <div class="col-lg-1 d-none d-lg-block"></div>
         <div class="feature col-12 col-sm-6 col-lg-2">
           <h3>Feature</h3>
           <ul>
@@ -43,9 +42,8 @@
             <img src="../../../assets/main/yt.svg" alt="yt">
           </div>
         </div>
-      </div>
-
-      <div class="row">
+      </section>
+      <section class="row">
         <!-- Copyright -->
         <div class="copyright-address col-12 d-flex flex-column flex-sm-row justify-content-between">
           <h3>© Ankasa.  All Rights Reserved.</h3>
@@ -54,11 +52,9 @@
             <h3>Jakarta Indonesia</h3>
           </div>
         </div>
-      </div>
-
+      </section>
     </div>
-
-  </div>
+  </footer>
 </template>
 
 <script>
