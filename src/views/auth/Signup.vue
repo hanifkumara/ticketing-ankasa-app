@@ -4,22 +4,23 @@
     <h1>Register</h1>
     <div class="space-32 w-100"></div>
     <!-- Form Register -->
-    <form @submit.prevent="">
+    <form @submit.prevent="signup">
       <!-- Full Name -->
-      <input v-model="fullName" class="form-input" type="text" placeholder="Full Name" required>
-      <div class="space-32 w-100"></div>
+      <input :class="this.errName === 'err' ? 'form-input-err':'form-input' " @input="handleName" v-model="fullName" type="text" placeholder="Full Name" required>
+      <div class="space-32 w-100"><h4 v-if="this.errName === 'err'" class="mt-2">Did you have a name? Please input here</h4></div>
       <!-- Email -->
-      <input v-model="email" class="form-input" type="email" placeholder="Email" required>
-      <div class="space-32 w-100"></div>
+      <input :class="this.errEmail === 'err' ? 'form-input-err':'form-input' " @input="handleEmail" v-model="email" type="email" placeholder="Email" required>
+      <div class="space-32 w-100"><h4 v-if="this.errEmail === 'err'" class="mt-2">Format email is incorrect</h4></div>
       <!-- Password -->
-      <input v-model="password" class="form-input" type="password" placeholder="Password" required>
+      <input :class="this.errPass === 'err' ? 'form-input-err':'form-input' " @input="handlePass" v-model="password" type="password" placeholder="Password" required>
+      <div class="space-32 w-100"><h4 v-if="this.errPass === 'err'" class="mt-2">Password must be 8 character</h4></div>
       <div class="space-32 w-100"></div>
       <!-- Button Register -->
       <button type="submit">Sign Up</button>
     </form>
     <!-- Accept Terms and Condition -->
     <div class="space-32 w-100"></div>
-    <input class="d-none" type="checkbox" id="check" v-model="check" true-value="yes" false-value="no">
+    <input class="d-none" type="checkbox" id="check" v-model="check" true-value="yes" false-value="no" required>
     <label for="check" class="w-100">
       <div class="d-flex align-items-center">
         <div :class="this.check === 'yes' ? 'checked' : 'unchecked' "></div>
@@ -32,19 +33,70 @@
     </div>
     <!-- Sign In -->
     <h5>Already have an account?</h5>
-    <button class="btn-go" type="submit">Sign In</button>
+    <button class="btn-go" type="submit" @click="goPageLogin">Sign In</button>
   </div>
 </template>
 
 <script>
+// import axios from 'axios'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'Signup',
   data () {
     return {
+      // Data
       fullName: '',
       email: '',
       password: '',
-      check: ''
+      check: '',
+      // Form Validation
+      errName: '',
+      errEmail: '',
+      errPass: ''
+    }
+  },
+  methods: {
+    handleName () {
+      if (this.fullName === '') {
+        this.errName = 'err'
+      } else {
+        this.errName = ''
+      }
+    },
+    handleEmail () {
+      if (!this.email.includes('@')) {
+        this.errEmail = 'err'
+      } else {
+        this.errEmail = ''
+      }
+    },
+    handlePass () {
+      if (this.password.length < 8) {
+        this.errPass = 'err'
+      } else {
+        this.errPass = ''
+      }
+    },
+    signup () {
+      const fullName = this.fullName
+      const email = this.email
+      const password = this.password
+      const data = {
+        fullName,
+        email,
+        password
+      }
+      console.log(data)
+      if (this.check === '' || this.check === 'no') {
+        this.check = 'no'
+        return Swal.fire('Failed', 'You must be accept our terms and condition', 'error')
+      }
+      Swal.fire('Success', 'Let\'s go login now', 'success')
+      this.$router.push('/auth/login')
+    },
+    goPageLogin () {
+      this.$router.push('/auth/login')
     }
   }
 }
@@ -61,6 +113,10 @@ h1 {
   color: #000000;
 }
 
+h4 {
+  color: #FF5B37;
+}
+
 .space-32 {
   height: 32px;
 }
@@ -75,7 +131,7 @@ h1 {
   line-height: 19px;
   color: #222125;
   border: 0;
-  border-bottom: 2px solid rgba(210, 194, 255, 0.68);;
+  border-bottom: 2px solid rgba(210, 194, 255, 0.68);
 }
 
 .form-input:focus {
@@ -88,10 +144,40 @@ h1 {
   line-height: 19px;
   color: #222125;
   border: 0;
-  border-bottom: 2px solid rgba(210, 194, 255, 0.68);;
+  border-bottom: 2px solid rgba(210, 194, 255, 0.68);
 }
 
 .form-input::placeholder {
+  color: #9B96AB;
+}
+
+.form-input-err {
+  width: 100%;
+  padding: 18px 12px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #222125;
+  border: 0;
+  border-bottom: 2px solid #FF5B37
+}
+
+.form-input-err:focus {
+  width: 100%;
+  padding: 18px 12px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #222125;
+  border: 0;
+  border-bottom: 2px solid #FF5B37
+}
+
+.form-input-err::placeholder {
   color: #9B96AB;
 }
 

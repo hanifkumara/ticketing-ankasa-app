@@ -4,14 +4,14 @@
     <div class="row">
 
       <!-- Left Side -->
-      <div class="left-side col-lg-7 col-md-6 col-sm-3 d-none d-sm-block">
+      <div class="left-side col-lg-7 col-sm-3 d-none d-sm-block">
         <div class="d-flex justify-content-center">
           <img src="../../assets/auth/illustration.svg" alt="plane">
         </div>
       </div>
 
       <!-- Right Side -->
-      <div class="right-side col-lg-5 col-md-6 col-sm-9">
+      <div class="right-side col-lg-5 col-sm-9">
         <!-- Logo Ankasa -->
         <div class="title-auth d-flex justify-content-center justify-content-sm-start">
           <img src="../../assets/auth/plane.svg" alt="plane">
@@ -66,7 +66,7 @@ export default {
   }
 }
 
-@media(max-width: 575px) {
+@media(max-width: 767px) {
   .right-side {
     padding: 50px;
   }
