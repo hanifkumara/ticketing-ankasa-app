@@ -13,7 +13,7 @@
       <!-- Right Side -->
       <div class="right-side col-lg-5 col-sm-9">
         <!-- Logo Ankasa -->
-        <div class="title-auth d-flex justify-content-center justify-content-sm-start">
+        <div class="title-auth d-flex">
           <img src="../../assets/auth/plane.svg" alt="plane">
           <h6>Ankasa</h6>
         </div>
@@ -69,6 +69,16 @@ export default {
 @media(max-width: 767px) {
   .right-side {
     padding: 50px;
+  }
+}
+
+@media(max-width: 575px) {
+  .right-side {
+    padding: 50px 28px ;
+  }
+
+  .space {
+    height: 70px;
   }
 }
 

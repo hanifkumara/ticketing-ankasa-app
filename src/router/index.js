@@ -61,7 +61,7 @@ const routes = [
         }
       },
       {
-        path: 'createnewpass',
+        path: 'createnewpass/:token',
         name: 'CreateNewPass',
         component: CreateNewPass,
         meta: {

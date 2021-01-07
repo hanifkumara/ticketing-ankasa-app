@@ -12,7 +12,7 @@
       <input :class="this.errEmail === 'err' ? 'form-input-err':'form-input' " @input="handleEmail" v-model="email" type="email" placeholder="Email" required>
       <div class="space-32 w-100"><h4 v-if="this.errEmail === 'err'" class="mt-2">Format email is incorrect</h4></div>
       <!-- Password -->
-      <input :class="this.errPass === 'err' ? 'form-input-err':'form-input' " @input="handlePass" v-model="password" type="password" placeholder="Password" required>
+      <input :class="this.errPass === 'err' ? 'form-input-err':'form-input' " @input="handlePass" v-model="password" type="password" placeholder="Password" minlength="8" required>
       <div class="space-32 w-100"><h4 v-if="this.errPass === 'err'" class="mt-2">Password must be 8 character</h4></div>
       <div class="space-32 w-100"></div>
       <!-- Button Register -->
@@ -91,6 +91,12 @@ export default {
       if (this.check === '' || this.check === 'no') {
         this.check = 'no'
         return Swal.fire('Failed', 'You must be accept our terms and condition', 'error')
+      } else if (fullName === '') {
+        return Swal.fire('Failed', 'Fill up your full name', 'error')
+      } else if (email === '') {
+        return Swal.fire('Failed', 'Fill up your email', 'error')
+      } else if (password === '') {
+        return Swal.fire('Failed', 'Fill up your password', 'error')
       }
       Swal.fire('Success', 'Let\'s go login now', 'success')
       this.$router.push('/auth/login')
