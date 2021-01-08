@@ -22,12 +22,12 @@
     </div>
     <!-- Sign In -->
     <h5>Doesn't have an account?</h5>
-    <button class="btn-go" type="submit" @click="goPageSignup">Register</button>
+    <button class="btn-go" type="button" @click="goPageSignup">Register</button>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import Swal from 'sweetalert2'
 
 export default {
@@ -70,9 +70,19 @@ export default {
       } else if (password === '') {
         return Swal.fire('Failed', 'Fill up your password', 'error')
       }
-      console.log(data)
-      Swal.fire('Success', 'Lets Fly With Easy', 'success')
-      this.$router.push('/main/search')
+      axios.post(`${process.env.VUE_APP_BASE_URL}/auth/login`, data)
+        .then((res) => {
+          console.log(res.data.result.data)
+          const id = res.data.result.data.id
+          const token = res.data.result.data.token
+          localStorage.setItem('id', id)
+          localStorage.setItem('token', token)
+          Swal.fire('Success', 'Lets Fly With Easy', 'success')
+          this.$router.push('/main/search')
+        })
+        .catch((err) => {
+          Swal.fire('Failed', err.response.data.message.message, 'error')
+        })
     },
     goPageSignup () {
       this.$router.push('/auth/signup')

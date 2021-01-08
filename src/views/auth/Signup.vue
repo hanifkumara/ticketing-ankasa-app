@@ -6,7 +6,7 @@
     <!-- Form Register -->
     <form @submit.prevent="signup">
       <!-- Full Name -->
-      <input :class="this.errName === 'err' ? 'form-input-err':'form-input' " @input="handleName" v-model="fullName" type="text" placeholder="Full Name" required>
+      <input :class="this.errName === 'err' ? 'form-input-err':'form-input' " @input="handleName" v-model="fullname" type="text" placeholder="Full Name" required>
       <div class="space-32 w-100"><h4 v-if="this.errName === 'err'" class="mt-2">Did you have a name? Please input here</h4></div>
       <!-- Email -->
       <input :class="this.errEmail === 'err' ? 'form-input-err':'form-input' " @input="handleEmail" v-model="email" type="email" placeholder="Email" required>
@@ -33,12 +33,12 @@
     </div>
     <!-- Sign In -->
     <h5>Already have an account?</h5>
-    <button class="btn-go" type="submit" @click="goPageLogin">Sign In</button>
+    <button class="btn-go" type="button" @click="goPageLogin">Sign In</button>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import Swal from 'sweetalert2'
 
 export default {
@@ -46,7 +46,7 @@ export default {
   data () {
     return {
       // Data
-      fullName: '',
+      fullname: '',
       email: '',
       password: '',
       check: '',
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     handleName () {
-      if (this.fullName === '') {
+      if (this.fullname === '') {
         this.errName = 'err'
       } else {
         this.errName = ''
@@ -79,11 +79,11 @@ export default {
       }
     },
     signup () {
-      const fullName = this.fullName
+      const fullname = this.fullname
       const email = this.email
       const password = this.password
       const data = {
-        fullName,
+        fullname,
         email,
         password
       }
@@ -91,15 +91,23 @@ export default {
       if (this.check === '' || this.check === 'no') {
         this.check = 'no'
         return Swal.fire('Failed', 'You must be accept our terms and condition', 'error')
-      } else if (fullName === '') {
+      } else if (fullname === '') {
         return Swal.fire('Failed', 'Fill up your full name', 'error')
       } else if (email === '') {
         return Swal.fire('Failed', 'Fill up your email', 'error')
       } else if (password === '') {
         return Swal.fire('Failed', 'Fill up your password', 'error')
       }
-      Swal.fire('Success', 'Let\'s go login now', 'success')
-      this.$router.push('/auth/login')
+      axios.post(`${process.env.VUE_APP_BASE_URL}/auth/register`, data)
+        .then((res) => {
+          console.log(res.data)
+          Swal.fire('Success', 'Let\'s go login now', 'success')
+          this.$router.push('/auth/login')
+        })
+        .catch((err) => {
+          console.log(err.response)
+          Swal.fire('Failed', err.response.data.message, 'error')
+        })
     },
     goPageLogin () {
       this.$router.push('/auth/login')
