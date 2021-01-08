@@ -106,6 +106,7 @@ export default {
 }
 
 .wrap-title-navbar {
+  cursor: pointer;
   img {
     margin: 0 15px 0 0;
   }
