@@ -41,7 +41,7 @@
             <img src="../../../assets/main/email.svg" alt="email">
             <img src="../../../assets/main/bell.svg" alt="bell">
 
-            <div class="container-profile">
+            <div @click="goProfile" class="container-profile">
               <div class="outline-profile d-flex justify-content-center align-items-center">
                 <div class="wrap-profile">
                   <img :src="this.photo" alt="profile">
@@ -80,6 +80,10 @@ export default {
     getUrl () {
       const url = window.location.pathname
       this.currentUrl = url
+    },
+    goProfile () {
+      this.$router.push('/main/profile')
+      this.currentUrl = ''
     }
   },
   mounted () {
@@ -157,6 +161,7 @@ export default {
 .tab-navbar {
   height: 50px;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .active-tab-name {
@@ -201,6 +206,7 @@ export default {
 }
 
 .container-profile {
+  cursor: pointer;
   .outline-profile {
     width: 50px;
     height: 50px;
