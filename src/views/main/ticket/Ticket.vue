@@ -574,7 +574,8 @@ export default {
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
-  line-height: 22px;r: #000000;
+  line-height: 22px;
+  color: #000000;
 }
 .flight-price {
   display: flex;
