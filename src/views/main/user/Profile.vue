@@ -6,12 +6,12 @@
           <div class="left-content">
             <div class="photo d-flex flex-column align-items-center">
               <div class="ava-profile">
-                <img src="@/assets/image/cat4.jpg" alt="Ava Profile">
+                <img :src="setMyProfile.photo" alt="Ava Profile">
               </div>
-              <label for="upload-photo" class="upload-photo my-4">
-                <input id="upload-photo" type="file" @change="handlePhoto">
-                Select Photo
-              </label>
+                <label for="upload-photo" class="upload-photo my-4">
+                  <input type="file" id="upload-photo" @change="handlePhoto" multiple>
+                  Select Photo
+                </label>
             </div>
             <h3 class="text-center">Hanif Kumara</h3>
             <h6 class="text-center mt-2">Solo, Indonesia</h6>
@@ -79,29 +79,38 @@
           <div class="right-content">
             <p style="font-size: 14px; margin-bottom: 15px;">PROFILE</p>
             <h3 style="margin-bottom: 30px;">Profile</h3>
-            <div class="form-profile d-flex justify-content-between">
-              <div class="left-form">
-                <h4>Contact</h4>
-                  <label for="email">Email</label>
-                  <input class="form-control" id="email" type="text" placeholder="flightbooking@ankasa.com">
-                  <label for="phone">Phone</label>
-                  <input class="form-control" id="phone" type="text" placeholder="+628739729371">
+            <form @submit.prevent="handleSubmit">
+              <div class="form-profile d-flex justify-content-between">
+                <div class="left-form">
+                  <h4>Contact</h4>
+                    <label for="email">Email</label>
+                    {{email}}
+                    <input class="form-control" id="email" type="text" v-model="email" placeholder="flightbooking@ankasa.com" v-on:keyup.enter="handleEmail" autocomplete="off">
+                    <p class="text-danger validation" v-if="email.length > 1 && !email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)">Format email invalid</p>
+                    <label for="phone">Phone</label>
+                    {{phone}}
+                    <input class="form-control" id="phone" type="text" v-model="phone" placeholder="+628739729371" autocomplete="off">
+                </div>
+                <div class="right-form">
+                  <h4>Biodata</h4>
+                    <label for="fullname">Fullname</label>
+                    {{fullname}}
+                    <input class="form-control" id="fullname" type="text" v-model="fullname" placeholder="Hanif Kumara" autocomplete="off">
+                    <p class="text-danger validation" v-if="fullname.length > 1 && fullname.length <= 7">Fullname must than 7 char</p>
+                    <label for="city">City</label>
+                    {{city}}
+                    <input class="form-control" id="city" type="text" v-model="city" placeholder="Solo" autocomplete="off">
+                    <label for="country">Country</label>
+                    {{country}}
+                    <input class="form-control"  id="country" type="text" v-model="country" placeholder="Indonesia" autocomplete="off">
+                </div>
               </div>
-              <div class="right-form">
-                <h4>Biodata</h4>
-                <label for="fullname">Fullname</label>
-                  <input class="form-control" id="fullname" type="text" placeholder="Hanif Kumara">
-                  <label for="city">City</label>
-                  <input class="form-control" id="city" type="text" placeholder="Solo">
-                  <label for="country">Country</label>
-                  <input class="form-control"  id="country" type="text" placeholder="Indonesia">
+              <div class="button-save">
+                <button class="save">
+                  Save
+                </button>
               </div>
-            </div>
-            <div class="button-save">
-              <button class="save">
-                Save
-              </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -110,13 +119,136 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'Profile',
-  methods: {
-    handlePhoto (e) {
-      console.log('ini handle foto')
-      console.log(e.target.files)
+  data () {
+    return {
+      email: '',
+      phone: '',
+      fullname: '',
+      city: '',
+      country: '',
+      image: null
     }
+  },
+  methods: {
+    ...mapActions(['updateProfile', 'getMyProfile']),
+    handlePhoto (e) {
+      const result = e.target.files[0]
+      const data = new FormData()
+      data.append('photo', result)
+      this.updateProfile(data)
+        .then(res => {
+          Swal.fire(
+            'Edit Photo success',
+            '',
+            'success'
+          )
+          this.getMyProfile()
+        })
+        .catch(err => {
+          const error = err.response.data.message.message
+          console.log(error)
+          let message = ''
+          if (error === 'Only image are allowed') {
+            message = 'Only image are allowed'
+          } else {
+            message = 'File too large, max length 1MB'
+          }
+          Swal.fire(
+            `${message}`,
+            '',
+            'error'
+          )
+        })
+    },
+    handleSubmit () {
+      if (!this.email) {
+        Swal.fire(
+          'Fill email required',
+          '',
+          'error'
+        )
+        return
+      }
+      if (!this.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+        Swal.fire(
+          'Format email invalid',
+          '',
+          'error'
+        )
+        return
+      }
+      if (!this.phone) {
+        Swal.fire(
+          'Fill phone required',
+          '',
+          'error'
+        )
+        return
+      }
+      if (!this.fullname) {
+        Swal.fire(
+          'Fill fullname required',
+          '',
+          'error'
+        )
+        return
+      }
+      if (this.fullname.length <= 7) {
+        Swal.fire(
+          'Fullname must than 7 char',
+          '',
+          'error'
+        )
+        return
+      }
+      if (!this.city) {
+        Swal.fire(
+          'Fill city required',
+          '',
+          'error'
+        )
+        return
+      }
+      if (!this.country) {
+        Swal.fire(
+          'Fill country required',
+          '',
+          'error'
+        )
+      } else {
+        const payload = {
+          email: this.email,
+          phone: this.phone,
+          fullname: this.fullname,
+          city: this.city,
+          country: this.country
+        }
+        this.updateProfile(payload)
+          .then((result) => {
+            const { message } = result.data.result
+            console.log(message)
+            Swal.fire(
+              message,
+              '',
+              'success'
+            )
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    }
+  },
+  mounted () {
+    this.getMyProfile()
+  },
+  computed: {
+    ...mapGetters(['setMyProfile'])
   }
 }
 </script>
@@ -253,6 +385,9 @@ input[type="file"] {
 }
 .modal-update > input{
   width: 100%;
+}
+.validation{
+  font-size: 12px;
 }
 @media screen and (max-width: 767px) {
   .col-md-8{
