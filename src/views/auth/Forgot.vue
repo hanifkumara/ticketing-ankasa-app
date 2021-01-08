@@ -22,6 +22,7 @@
 <script>
 // import axios from 'axios'
 import Swal from 'sweetalert2'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Forgot',
@@ -34,7 +35,7 @@ export default {
     }
   },
   methods: {
-
+    ...mapActions(['forgotPassword']),
     handleEmail () {
       if (!this.email.includes('@')) {
         this.errEmail = 'err'
@@ -50,9 +51,14 @@ export default {
       if (email === '') {
         return Swal.fire('Failed', 'Fill up your email', 'error')
       }
-      console.log(data)
-      Swal.fire('Success', 'Check your email now', 'success')
-      this.$router.push('/main/search')
+      this.forgotPassword(data)
+        .then(() => {
+          Swal.fire('Success', 'Check your email now', 'success')
+        })
+        .catch(err => {
+          const error = err.response.data.message.message
+          Swal.fire(error, '', 'error')
+        })
     }
   }
 }

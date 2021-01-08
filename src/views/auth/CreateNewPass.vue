@@ -19,7 +19,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import Swal from 'sweetalert2'
 
 export default {
@@ -33,6 +33,9 @@ export default {
       errPass: ''
     }
   },
+  mounted () {
+    console.log(this.$route.params.token)
+  },
   methods: {
     handlePass () {
       if (this.password.length < 8) {
@@ -41,7 +44,7 @@ export default {
         this.errPass = ''
       }
     },
-    createNewPass () {
+    async createNewPass () {
       const password = this.password
       const newpass = this.newpass
       const data = {
@@ -55,8 +58,22 @@ export default {
         return Swal.fire('Failed', 'Your password are not same', 'error')
       }
       console.log(data)
-      Swal.fire('Success', 'Lets go login now', 'success')
-      this.$router.push('/auth/login')
+      try {
+        const token = this.$route.params.token
+        const apiUrl = `${process.env.VUE_APP_BASE_URL}`
+        const authAxios = axios.create({
+          baseURL: apiUrl,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        const result = await authAxios.patch('/auth/reset-password', data)
+        console.log(result)
+        Swal.fire('Success', 'Lets go login now', 'success')
+        this.$router.push('/auth/login')
+      } catch (error) {
+        console.log(error.response)
+      }
     }
   }
 }

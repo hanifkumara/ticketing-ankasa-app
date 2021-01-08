@@ -16,7 +16,7 @@ export default new Vuex.Store({
   actions: {
     getMyProfile (context) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_BASE_URL}/my-profile`)
+        axios.get(`${process.env.VUE_APP_BASE_URL}/users/my-profile`)
           .then((result) => {
             console.log(result)
             context.commit('SET_MY_PROFILE', result.data.result)
@@ -30,9 +30,20 @@ export default new Vuex.Store({
     updateProfile (context, payload) {
       return new Promise((resolve, reject) => {
         console.log(payload)
-        axios.patch(`${process.env.VUE_APP_BASE_URL}`, payload)
+        axios.patch(`${process.env.VUE_APP_BASE_URL}/users`, payload)
           .then((result) => {
             console.log(result)
+            resolve(result)
+          }).catch((err) => {
+            console.log(err)
+            reject(err)
+          })
+      })
+    },
+    forgotPassword (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_BASE_URL}/auth/forgot-password`, payload)
+          .then((result) => {
             resolve(result)
           }).catch((err) => {
             console.log(err)
