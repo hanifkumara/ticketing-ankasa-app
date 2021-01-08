@@ -84,6 +84,7 @@ input:focus {
 
 body {
   font-family: 'Poppins';
+  background-color: #f5f6fa;
 }
 
 </style>

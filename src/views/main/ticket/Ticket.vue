@@ -12,12 +12,221 @@
           </span>
           <span>
             <p>Monday, 20 July 20</p>
+            <p>&middot;</p>
             <p>6 Passenger</p>
+            <p>&middot;</p>
             <p>Economy</p>
           </span>
         </div>
       </div>
       <h3>Change search</h3>
+    </div>
+    <div class="main-content">
+      <div class="filter-ticket">
+        <span>
+          <h1>Filter</h1>
+          <h2>Reset</h2>
+        </span>
+        <div class="box-filter">
+          <span>
+            <h5>Transit</h5>
+            <p>+</p>
+          </span>
+          <div class="list-filter">
+            <span>
+              <p>Direct</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>Transit</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span>
+            <h5>Fasilities</h5>
+            <p>+</p>
+          </span>
+          <div class="list-filter">
+            <span>
+              <p>Luggage</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>in-Flight Meal</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>Wi-fi</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span>
+            <h5>Departure Time</h5>
+            <p>+</p>
+          </span>
+          <div class="list-filter">
+            <span>
+              <p>00:00 - 06:00</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>07:30 - 10:00</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>12:00 - 15:20</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>17:00 - 20:00</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span>
+            <h5>Time Arrived</h5>
+            <p>+</p>
+          </span>
+          <div class="list-filter">
+            <span>
+              <p>00:00 - 06:00</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>07:30 - 10:00</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>12:00 - 15:20</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>17:00 - 20:00</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span>
+            <h5>Airlinnes</h5>
+            <p>+</p>
+          </span>
+          <div class="list-filter">
+            <span>
+              <p>Garuda Indonesia</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>Lion Air</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+            <span>
+              <p>City link</p>
+              <input type="checkbox" name="chek" id="direct">
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="list-ticket">
+        <div class="head-list-ticket">
+          <span>
+            <h1>Select Ticket</h1>
+            <p>( 6 flight found )</p>
+          </span>
+          <span>
+            <h3>Sort by</h3>
+            <img src="../../../../public/img/icons/ticket_d/sortAscDsc.png" alt="sort">
+          </span>
+        </div>
+        <div class="box-list-ticket">
+          <div class="ticket-title">
+            <img src="../../../../public/img/icons/ticket_d/garuda-indonesia-logo-BD82882F07-seeklogo 1.png" alt="logo">
+            <p>Garuda Indonesia</p>
+          </div>
+          <div class="ticket-detail">
+              <div class="info-detail">
+                <div class="flight-route">
+                  <span>
+                    <h1>IDN</h1>
+                    <p>12:23</p>
+                  </span>
+                <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
+                  <span>
+                    <h1>JPN</h1>
+                    <p>15:21</p>
+                  </span>
+                </div>
+
+                <div class="flight-time">
+                  <p>3 hours 11 minutes</p>
+                  <p>( 1 Transit )</p>
+                </div>
+
+                <div class="flight-facilities">
+                  <img src="../../../../public/img/icons/ticket_d/bag.png" alt="bag">
+                  <img src="../../../../public/img/icons/ticket_d/brgr.png" alt="burger">
+                  <img src="../../../../public/img/icons/ticket_d/wifi.png" alt="Wifi">
+                </div>
+
+                <div class="flight-price">
+                  <h5>IDR 250.000</h5>
+                  <p>/pax</p>
+                </div>
+              </div>
+              <button>SELECT</button>
+          </div>
+          <span><p>View Details ></p></span>
+        </div>
+
+        <div class="box-list-ticket">
+          <div class="ticket-title">
+            <img src="../../../../public/img/icons/ticket_d/garuda-indonesia-logo-BD82882F07-seeklogo 1.png" alt="logo">
+            <p>Garuda Indonesia</p>
+          </div>
+          <div class="ticket-detail">
+              <div class="info-detail">
+                <div class="flight-route">
+                  <span>
+                    <h1>IDN</h1>
+                    <p>12:23</p>
+                  </span>
+                <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
+                  <span>
+                    <h1>JPN</h1>
+                    <p>15:21</p>
+                  </span>
+                </div>
+
+                <div class="flight-time">
+                  <p>3 hours 11 minutes</p>
+                  <p>( 1 Transit )</p>
+                </div>
+
+                <div class="flight-facilities">
+                  <img src="../../../../public/img/icons/ticket_d/bag.png" alt="bag">
+                  <img src="../../../../public/img/icons/ticket_d/brgr.png" alt="burger">
+                  <img src="../../../../public/img/icons/ticket_d/wifi.png" alt="Wifi">
+                </div>
+
+                <div class="flight-price">
+                  <h5>IDR 250.000</h5>
+                  <p>/pax</p>
+                </div>
+              </div>
+              <button>SELECT</button>
+          </div>
+          <span><p>View Details ></p></span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -105,6 +314,301 @@ export default {
   color: #FFFFFF;
 }
 
+/* MAIN CONTENT */
+
+.main-content {
+  width: 95%;
+  margin-top: 13px;
+  margin-bottom: 15px;
+  display: flex;
+  /* background-color: rgb(158, 107, 107); */
+}
+.filter-ticket {
+  flex: .3;
+  display: flex;
+  /* background-color: #2395FF; */
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.filter-ticket span{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.filter-ticket span h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+}
+.filter-ticket span h2 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #2395FF;
+}
+
+.box-filter {
+  width: 95%;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  padding: 20px 10px 6px 10px;
+  position: relative;
+}
+.box-filter:first-child {
+  border-top-left-radius: 15px!important;
+  border-top-right-radius: 15px!important;
+  /* background-color: blue!important; */
+}
+.box-filter:last-child {
+  border-bottom-left-radius: 15px!important;
+  border-bottom-right-radius: 15px!important;
+  /* background-color: blue!important; */
+}
+.box-filter::after {
+  content: '';
+  position: relative;
+  bottom: 0;
+  width: 96%;
+  height: 1px;
+  background-color: #e5e5e5e5;
+  margin: 0 auto;
+}
+.box-filter span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.box-filter span h5 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: #000000;
+}
+.box-filter span p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 22px;
+  color: #2395FF;
+  /* background-color: blue; */
+  padding: 0 0 0 33px;
+  cursor: pointer;
+}
+.list-filter {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+.list-filter span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.list-filter span p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #000000;
+  padding: 0;
+}
+
+.list-ticket {
+  flex: 1;
+  display: flex;
+  height: 500px;
+  /* background-color: #859baf; */
+  flex-direction: column;
+  padding: 10px;
+}
+
+.head-list-ticket {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 10px;
+}
+.head-list-ticket span {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.head-list-ticket span h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+  margin-right: 9px;
+}
+.head-list-ticket span p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 36px;
+  color: #909090;
+}
+.head-list-ticket span h3 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  margin-right: 15px;
+}
+.head-list-ticket span img {
+  width: 17px;
+  height: 17px;
+}
+
+.box-list-ticket {
+  width: 100%;
+  padding: 35px;
+  background: #FFFFFF;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.box-list-ticket:last-child {
+  margin-bottom: 0;
+}
+.box-list-ticket span p{
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #2395FF;
+  cursor: pointer;
+}
+.ticket-title {
+  display: flex;
+  align-items: center;
+}
+.ticket-title img {
+  width: 100px;
+  height: 50px;
+  margin-right: 25px;
+}
+.ticket-title p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  color: #595959;
+}
+
+.ticket-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 100%; */
+  margin: 34px 0 35px 0;
+}
+.ticket-detail button {
+  width: 150px;
+  height: 50px;
+  background: #2395FF;
+  box-shadow: 0px 8px 10px rgba(35, 149, 255, 0.3);
+  border-radius: 10px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+  border: none;
+  outline: none;
+}
+.info-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+}
+.flight-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flight-time p{
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #595959;
+}
+.flight-facilities {
+  display: flex;
+  align-items: center;
+}
+.flight-facilities img:nth-child(2){
+  margin: 0 17px 0 17px;
+}
+.flight-route {
+  display: flex;
+  /* align-items: center; */
+}
+.flight-route span h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 22px;r: #000000;
+}
+.flight-price {
+  display: flex;
+  align-items: center;
+}
+.flight-price h5 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  color: #2395FF;
+}
+.flight-price p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #8d8d8d;
+}
+.flight-route span p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 22px;
+  color: #6B6B6B;
+}
+.flight-route img {
+  margin: 0 27px 0 27px;
+  width: 19px;
+  height: 19px;
+}
 /* IPAD */
 @media only screen and (max-width: 1024px) {
   .flight-line {
