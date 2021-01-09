@@ -25,116 +25,22 @@
       <div class="filter-ticket">
         <span>
           <h1>Filter</h1>
-          <h2>Reset</h2>
+          <h2 @click="resetCheck">Reset</h2>
         </span>
-        <div class="box-filter">
-          <span>
-            <h5>Transit</h5>
-            <p>+</p>
+
+        <div class="box-filter" v-for="(filter) in filters" :key="filter.name">
+          <span @click="filter.collapse = !filter.collapse">
+            <h5>{{filter.name}}</h5>
+            <p>{{ filter.collapse ? '-' : '+' }}</p>
           </span>
-          <div class="list-filter">
-            <span>
-              <p>Direct</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>Transit</p>
-              <input type="checkbox" name="chek" id="direct">
+          <div class="list-filter" :class="{ 'collapse': !filter.collapse }">
+            <span v-for="li in filter.li" :key="li.name">
+              <p>{{ li.name }}</p>
+              <input type="checkbox" name="chek" id="direct" v-bind="checkbox" :checked="li.check">
             </span>
           </div>
         </div>
 
-        <div class="box-filter">
-          <span>
-            <h5>Fasilities</h5>
-            <p>+</p>
-          </span>
-          <div class="list-filter">
-            <span>
-              <p>Luggage</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>in-Flight Meal</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>Wi-fi</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-          </div>
-        </div>
-
-        <div class="box-filter">
-          <span>
-            <h5>Departure Time</h5>
-            <p>+</p>
-          </span>
-          <div class="list-filter">
-            <span>
-              <p>00:00 - 06:00</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>07:30 - 10:00</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>12:00 - 15:20</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>17:00 - 20:00</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-          </div>
-        </div>
-
-        <div class="box-filter">
-          <span>
-            <h5>Time Arrived</h5>
-            <p>+</p>
-          </span>
-          <div class="list-filter">
-            <span>
-              <p>00:00 - 06:00</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>07:30 - 10:00</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>12:00 - 15:20</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>17:00 - 20:00</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-          </div>
-        </div>
-
-        <div class="box-filter">
-          <span>
-            <h5>Airlinnes</h5>
-            <p>+</p>
-          </span>
-          <div class="list-filter">
-            <span>
-              <p>Garuda Indonesia</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>Lion Air</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-            <span>
-              <p>City link</p>
-              <input type="checkbox" name="chek" id="direct">
-            </span>
-          </div>
-        </div>
       </div>
       <div class="list-ticket">
         <div class="head-list-ticket">
@@ -233,7 +139,116 @@
 
 <script>
 export default {
-  name: 'Ticket'
+  name: 'Ticket',
+  data () {
+    return {
+      checkbox: '',
+      filters: [
+        {
+          name: 'Transit',
+          li: [
+            {
+              name: 'Direct',
+              check: false
+            },
+            {
+              name: 'Transit',
+              check: false
+            }
+          ],
+          collapse: false
+        },
+        {
+          name: 'Facilities',
+          li: [
+            {
+              name: 'Luggage',
+              check: false
+            },
+            {
+              name: 'in-FLight Meal',
+              check: false
+            },
+            {
+              name: 'Wifi',
+              check: false
+            }
+          ],
+          collapse: false
+        },
+        {
+          name: 'Departure Time',
+          li: [
+            {
+              name: '00:00 - 06:00',
+              check: false
+            },
+            {
+              name: '07:30 - 10:00',
+              check: false
+            },
+            {
+              name: '20:00 - 00:30',
+              check: false
+            },
+            {
+              name: '10:00 - 12:30',
+              check: false
+            }
+          ],
+          collapse: false
+        },
+        {
+          name: 'Time Arrived',
+          li: [
+            {
+              name: '00:00 - 06:00',
+              check: false
+            },
+            {
+              name: '07:30 - 10:00',
+              check: false
+            },
+            {
+              name: '20:00 - 00:30',
+              check: false
+            },
+            {
+              name: '10:00 - 12:30',
+              check: false
+            }
+          ],
+          collapse: false
+        },
+        {
+          name: 'Airlines',
+          li: [
+            {
+              name: 'Garuda Indonesia',
+              check: false
+            },
+            {
+              name: 'Air Asia',
+              check: false
+            },
+            {
+              name: 'City Link',
+              check: false
+            }
+          ],
+          collapse: false
+        }
+      ]
+    }
+  },
+  methods: {
+    resetCheck () {
+      const data = this.filters
+      data.map((e) => {
+        e.li.check = false
+      })
+    }
+  }
 }
 </script>
 
@@ -381,12 +396,13 @@ export default {
   width: 96%;
   height: 1px;
   background-color: #e5e5e5e5;
-  margin: 0 auto;
+  margin: 7px auto;
 }
 .box-filter span {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 .box-filter span h5 {
   font-family: Poppins;
@@ -411,6 +427,10 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 4px;
+}
+.collapse{
+  display: none!important;
+  transition: 1s;
 }
 .list-filter span {
   display: flex;
@@ -610,7 +630,7 @@ export default {
   width: 19px;
   height: 19px;
 }
-/* IPAD */
+/* IPAD PRO */
 @media only screen and (max-width: 1024px) {
   .flight-line {
     margin-left: 50px;
@@ -618,8 +638,156 @@ export default {
   .header-ticket_d h3 {
     margin-right: 50px;
   }
+  .box-list-ticket {
+  width: 100%;
+  padding: 35px;
+  background: #FFFFFF;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.box-list-ticket:last-child {
+  margin-bottom: 0;
+}
+.box-list-ticket span p{
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #2395FF;
+  cursor: pointer;
+}
+.ticket-title {
+  display: flex;
+  align-items: center;
+}
+.ticket-title img {
+  width: 100px;
+  height: 50px;
+  margin-right: 25px;
+}
+.ticket-title p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  color: #595959;
 }
 
+.ticket-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 100%; */
+  margin: 34px 0 35px 0;
+}
+.ticket-detail button {
+  width: 110px;
+  height: 40px;
+  background: #2395FF;
+  box-shadow: 0px 8px 10px rgba(35, 149, 255, 0.3);
+  border-radius: 10px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+  border: none;
+  outline: none;
+}
+.info-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+}
+.flight-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flight-time p{
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 22px;
+  color: #595959;
+}
+.flight-facilities {
+  display: flex;
+  align-items: center;
+}
+.flight-facilities img:nth-child(2){
+  margin: 0 17px 0 17px;
+}
+.flight-route {
+  display: flex;
+  /* align-items: center; */
+}
+.flight-route span h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+}
+.flight-price {
+  display: flex;
+  align-items: center;
+}
+.flight-price h5 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 22px;
+  color: #2395FF;
+}
+.flight-price p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 22px;
+  color: #8d8d8d;
+}
+.flight-route span p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 22px;
+  color: #6B6B6B;
+}
+.flight-route img {
+  margin: 0 27px 0 27px;
+  width: 19px;
+  height: 19px;
+}
+}
+
+/* IPAD OLD */
+
+@media only screen and (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+  .box-filter {
+    width: 95%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    padding: 20px 10px 6px 10px;
+    position: relative;
+  }
+}
 /* PHONE */
 @media only screen and (max-width: 414px) {
   .header-ticket_d {
@@ -671,6 +839,154 @@ export default {
   line-height: 24px;
   color: #FFFFFF;
   margin-right: 20px;
+}
+.flight-time {
+  display: none;
+}
+.flight-facilities {
+  display: none;
+}
+.box-list-ticket span p{
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #2395FF;
+  cursor: pointer;
+}
+.ticket-title {
+  display: flex;
+  align-items: center;
+}
+.ticket-title img {
+  width: 100px;
+  height: 50px;
+  margin-right: 25px;
+}
+.ticket-title p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  color: #595959;
+}
+
+.ticket-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 100%; */
+  margin: 34px 0 35px 0;
+}
+.ticket-detail button {
+  width: 70px;
+  height: 30px;
+  background: #2395FF;
+  box-shadow: 0px 8px 10px rgba(35, 149, 255, 0.3);
+  border-radius: 10px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 24px;
+  color: #FFFFFF;
+  border: none;
+  outline: none;
+}
+.info-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+}
+.flight-route {
+  display: flex;
+  /* align-items: center; */
+}
+.flight-route span h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #000000;
+}
+.flight-price {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+.flight-price h5 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 22px;
+  color: #2395FF;
+}
+.flight-price p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 22px;
+  color: #8d8d8d;
+}
+.flight-route span p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 22px;
+  color: #6B6B6B;
+}
+.flight-route img {
+  margin: 0 18px 0 18px;
+  width: 14px;
+  height: 14px;
+}
+.head-list-ticket {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 10px;
+}
+.head-list-ticket span {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.head-list-ticket span h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 36px;
+  color: #000000;
+  margin-right: 9px;
+}
+.head-list-ticket span p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 36px;
+  color: #909090;
+}
+.head-list-ticket span h3 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 24px;
+  color: #000000;
+  margin-right: 15px;
+}
+.head-list-ticket span img {
+  width: 15px;
+  height: 15px;
 }
 }
 </style>
