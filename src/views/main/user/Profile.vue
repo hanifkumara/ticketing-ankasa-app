@@ -13,8 +13,9 @@
                   Select Photo
                 </label>
             </div>
-            <h3 class="text-center">Hanif Kumara</h3>
-            <h6 class="text-center mt-2">Solo, Indonesia</h6>
+            <h3 class="text-center">{{setMyProfile.fullname}}</h3>
+            <h6 class="text-center mt-2" v-if="setMyProfile.city && setMyProfile.country">{{setMyProfile.city}}, {{setMyProfile.country}}</h6>
+            <h6 class="text-center mt-2" v-else>You hanve't set City and Country</h6>
             <div class="container-card">
               <div class="title-card d-flex justify-content-between">
                 <h6 style="font-weight: 700">Card</h6>
@@ -56,16 +57,18 @@
               <b-modal hide-footer id="modal-1" title="Update my Profile" class="modal-update">
                 <h4>Contact :</h4>
                 <label for="">Email</label>
-                <input type="text" class="form-control" placeholder="flightbooking@ankasa.com">
+                <input type="text" class="form-control" :placeholder="setMyProfile.email">
                 <label for="">Phone</label>
-                <input type="text" class="form-control" placeholder="+628739729371">
+                <input type="text" class="form-control" :placeholder="setMyProfile.phone">
                 <h4 style="margin-top: 30px">Biodata :</h4>
                 <label for="">Fullname</label>
-                <input type="text" class="form-control" placeholder="Hanif Kumara">
+                <input type="text" class="form-control" :placeholder="setMyProfile.fullname">
                 <label for="">City</label>
-                <input type="text" class="form-control" placeholder="Solo">
+                <input type="text" class="form-control" v-if="setMyProfile.city" :placeholder="setMyProfile.city">
+                <input type="text" class="form-control" v-else placeholder="Please set your city">
                 <label for="">Country</label>
-                <input type="text" class="form-control" placeholder="Indonesia">
+                <input type="text" class="form-control" v-if="setMyProfile.country" :placeholder="setMyProfile.country">
+                <input type="text" class="form-control" v-else placeholder="Please set your country">
                 <div class="button-save">
                   <button class="save">
                     Save
@@ -84,25 +87,23 @@
                 <div class="left-form">
                   <h4>Contact</h4>
                     <label for="email">Email</label>
-                    {{email}}
-                    <input class="form-control" id="email" type="text" v-model="email" placeholder="flightbooking@ankasa.com" v-on:keyup.enter="handleEmail" autocomplete="off">
+                    <input class="form-control" id="email" type="text" v-model="email" :placeholder="setMyProfile.email" v-on:keyup.enter="handleEmail" autocomplete="off">
                     <p class="text-danger validation" v-if="email.length > 1 && !email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)">Format email invalid</p>
                     <label for="phone">Phone</label>
-                    {{phone}}
-                    <input class="form-control" id="phone" type="text" v-model="phone" placeholder="+628739729371" autocomplete="off">
+                    <input class="form-control" id="phone" type="text" v-if="setMyProfile.phone" v-model="phone" :placeholder="setMyProfile.phone" autocomplete="off">
+                    <input class="form-control" id="phone" type="text" v-else v-model="phone" placeholder="Please set your phone number" autocomplete="off">
                 </div>
                 <div class="right-form">
                   <h4>Biodata</h4>
                     <label for="fullname">Fullname</label>
-                    {{fullname}}
-                    <input class="form-control" id="fullname" type="text" v-model="fullname" placeholder="Hanif Kumara" autocomplete="off">
+                    <input class="form-control" id="fullname" type="text" v-model="fullname" :placeholder="setMyProfile.fullname" autocomplete="off">
                     <p class="text-danger validation" v-if="fullname.length > 1 && fullname.length <= 7">Fullname must than 7 char</p>
                     <label for="city">City</label>
-                    {{city}}
-                    <input class="form-control" id="city" type="text" v-model="city" placeholder="Solo" autocomplete="off">
+                    <input type="text" class="form-control" v-if="setMyProfile.city" v-model="city" :placeholder="setMyProfile.city" autocomplete="off">
+                    <input type="text" class="form-control" v-else v-model="city" placeholder="Please set your city" autocomplete="off">
                     <label for="country">Country</label>
-                    {{country}}
-                    <input class="form-control"  id="country" type="text" v-model="country" placeholder="Indonesia" autocomplete="off">
+                    <input type="text" class="form-control" v-if="setMyProfile.country" v-model="country" :placeholder="setMyProfile.country" autocomplete="off">
+                    <input type="text" class="form-control" v-else v-model="country" placeholder="Please set your country" autocomplete="off">
                 </div>
               </div>
               <div class="button-save">
@@ -142,6 +143,7 @@ export default {
       data.append('photo', result)
       this.updateProfile(data)
         .then(res => {
+          console.log(res)
           Swal.fire(
             'Edit Photo success',
             '',
@@ -256,6 +258,7 @@ export default {
 <style scoped>
 .bg{
   background-color: #F5F6FA;
+  padding: 30px 0;
 }
 .left-content{
   width: 100%;
@@ -370,8 +373,8 @@ button.save:focus{
   outline: none;
 }
 .profile{
-  margin-top: 30px;
   display: flex;
+  margin-top: 30px;
   padding: 5px 0;
 }
 .profile > p{
