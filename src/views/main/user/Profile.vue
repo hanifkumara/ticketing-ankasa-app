@@ -87,10 +87,10 @@
                 <div class="left-form">
                   <h4>Contact</h4>
                     <label for="email">Email</label>
-                    <input class="form-control" id="email" type="text" v-model="email" :placeholder="setMyProfile.email" v-on:keyup.enter="handleEmail" autocomplete="off">
+                    <input class="form-control" id="email" type="text" v-model="email" :placeholder="setMyProfile.email" autocomplete="off">
                     <p class="text-danger validation" v-if="email.length > 1 && !email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)">Format email invalid</p>
                     <label for="phone">Phone</label>
-                    <input class="form-control" id="phone" type="text" v-if="setMyProfile.phone" v-model="phone" :placeholder="setMyProfile.phone" autocomplete="off">
+                    <input class="form-control" id="phone" type="text" v-if="setMyProfile.phone" v-model="phone" :placeholder="setMyProfile.phone"  autocomplete="off">
                     <input class="form-control" id="phone" type="text" v-else v-model="phone" placeholder="Please set your phone number" autocomplete="off">
                 </div>
                 <div class="right-form">
@@ -99,7 +99,7 @@
                     <input class="form-control" id="fullname" type="text" v-model="fullname" :placeholder="setMyProfile.fullname" autocomplete="off">
                     <p class="text-danger validation" v-if="fullname.length > 1 && fullname.length <= 7">Fullname must than 7 char</p>
                     <label for="city">City</label>
-                    <input type="text" class="form-control" v-if="setMyProfile.city" v-model="city" :placeholder="setMyProfile.city" autocomplete="off">
+                    <input type="text" class="form-control" v-if="setMyProfile.city" v-model="city" :placeholder="setMyProfile.city"  autocomplete="off">
                     <input type="text" class="form-control" v-else v-model="city" placeholder="Please set your city" autocomplete="off">
                     <label for="country">Country</label>
                     <input type="text" class="form-control" v-if="setMyProfile.country" v-model="country" :placeholder="setMyProfile.country" autocomplete="off">
@@ -200,7 +200,7 @@ export default {
         )
         return
       }
-      if (this.fullname.length <= 7) {
+      if (this.fullname <= 7) {
         Swal.fire(
           'Fullname must than 7 char',
           '',
@@ -232,6 +232,7 @@ export default {
         }
         this.updateProfile(payload)
           .then((result) => {
+            this.getMyProfile()
             const { message } = result.data.result
             console.log(message)
             Swal.fire(
@@ -373,8 +374,8 @@ button.save:focus{
   outline: none;
 }
 .profile{
-  display: flex;
   margin-top: 30px;
+  display: flex;
   padding: 5px 0;
 }
 .profile > p{

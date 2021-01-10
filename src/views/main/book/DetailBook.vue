@@ -13,28 +13,28 @@
               <div class="logo-airlines">
                 <img src="@/assets/image/garuda-indonesia-logo-BD82882F07-seeklogo 3.png" alt="Logo Airlanes">
               </div>
-              <h2 class="from">IDN</h2>
+              <h2 class="from">{{setDetailMyTicket.country_departure}}</h2>
               <div class="icon-airlines">
                 <img src="@/assets/image/Vector (3).png" alt="Icon">
               </div>
-              <h2 class="to">JPN</h2>
+              <h2 class="to">{{setDetailMyTicket.country_arrived}}</h2>
             </div>
             <div class="desc-booking-pass d-flex">
               <div class="desc-left">
                 <p class="title-desc">Code</p>
-                <h5>AB-221</h5>
-                <p class="title-desc" style="margin-top: 20px;">Terminal</p>
-                <h5>A</h5>
+                <h5>{{setDetailMyBooking.id}}</h5>
+                <p class="title-desc" style="margin-top: 20px;">Type Ticket</p>
+                <h5>{{setDetailMyTicket.ticket_type}}</h5>
               </div>
               <div class="desc-rigth">
                 <p class="title-desc">Class</p>
-                <h5>Economy</h5>
-                <p class="title-desc" style="margin-top: 20px;">Gate</p>
-                <h5>211</h5>
+                <h5>{{setDetailMyTicket.class}}</h5>
               </div>
             </div>
             <p class="title-desc" style="margin-top: 20px;">Departure</p>
-            <h5>Monday, 20 July ‘20 - 12:33</h5>
+            <h5>{{setDetailMyTicket.date_departure | moment("dddd, MMMM Do YYYY")}} - {{setDetailMyTicket.time_departure}}</h5>
+            <!-- <p v-if="new Date() | moment('dddd, MMMM Do YYYY') < setDetailMyTicket.date_departure | moment('dddd, MMMM Do YYYY')">Ora make sense</p>
+            <p v-else>Subhanallah</p> -->
           </div>
           <div class="content-right">
             <div class="qrcode">
@@ -47,8 +47,18 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'DetailBook'
+  name: 'DetailBook',
+  methods: {
+    ...mapActions(['getDetailMyBooking'])
+  },
+  mounted () {
+    this.getDetailMyBooking(this.$route.params.id)
+  },
+  computed: {
+    ...mapGetters(['setDetailMyBooking', 'setDetailMyTicket'])
+  }
 }
 </script>
 

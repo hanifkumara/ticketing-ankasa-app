@@ -84,21 +84,21 @@
             </div>
           </div>
           <div class="container-card-booking">
-            <div class="card-booking">
-              <p class="date-time">Monday, 20 July ‘20 - 12:33</p>
+            <div class="card-booking" v-for="data in setMyBooking" :key="data.id">
+              <p class="date-time">{{data.ticket.date_departure}} - {{data.ticket.time_departure}}</p>
               <div class="from-to d-flex">
-                <h4 class="from">IDN</h4>
+                <h4 class="from">{{data.ticket.country_departure}}</h4>
                 <div class="icon-airlines">
                   <img src="@/assets/image/Vector (3).png" alt="Icon Airlines">
                 </div>
-                <h4 class="to">JPN</h4>
+                <h4 class="to">{{data.ticket.country_arrived}}</h4>
               </div>
-              <p class="desc-booking">Garuda Indonesia, AB-221</p>
+              <p class="desc-booking">{{data.ticket.name_maskapai}}, {{data.id}}</p>
               <hr style="color: #E6E6E6;">
               <div class="footer-card d-flex align-items-center">
                 <h6>Status</h6>
-                <!-- <div class="waiting-payment">Waiting for payment</div> -->
-                <div class="eticket-issues">Eticket Issues</div>
+                <div v-if="data.status === 'pending'" class="waiting-payment">Waiting for payment</div>
+                <div v-else class="eticket-issues" @click="detailBooking(data.id)">Eticket Issues</div>
               </div>
             </div>
           </div>
@@ -115,7 +115,7 @@ import Swal from 'sweetalert2'
 export default {
   name: 'MyBook',
   methods: {
-    ...mapActions(['getMyProfile', 'updateProfile']),
+    ...mapActions(['getMyProfile', 'getMyBooking', 'updateProfile']),
     handlePhoto (e) {
       const result = e.target.files[0]
       const data = new FormData()
@@ -130,13 +130,13 @@ export default {
           this.getMyProfile()
         })
         .catch(err => {
-          const error = err.response.data.message.message
+          const error = err.response.data.message
           console.log(error)
           let message = ''
-          if (error === 'Only image are allowed') {
-            message = 'Only image are allowed'
+          if (error === 'Only .png, .jpg and .jpeg format allowed!') {
+            message = 'Only .png, .jpg and .jpeg format allowed!'
           } else {
-            message = 'File too large, max length 1MB'
+            message = 'Image size is too large, it must be under 2MB'
           }
           Swal.fire(
             `${message}`,
@@ -144,13 +144,20 @@ export default {
             'error'
           )
         })
+    },
+    detailBooking (idBooking) {
+      this.$router.push({ name: 'DetailBook', params: { id: idBooking } })
     }
   },
   mounted () {
     this.getMyProfile()
+    this.getMyBooking()
+      .then(() => {
+        console.log(this.setMyBooking)
+      })
   },
   computed: {
-    ...mapGetters(['setMyProfile'])
+    ...mapGetters(['setMyProfile', 'setMyBooking'])
   }
 }
 </script>
@@ -297,5 +304,19 @@ input[type="file"] {
 .desc-booking{
   font-size: 14px;
   color: #979797;
+}
+
+@media screen and (max-width: 767px) {
+  .bg{
+    background-color: white;
+  }
+  .col-md-4{
+    display: none;
+  }
+  .card-booking{
+    background: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 2px 2px 1px rgb(223, 216, 216);
+  }
 }
 </style>
