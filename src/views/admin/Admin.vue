@@ -1,6 +1,5 @@
 <template>
   <div class=" container-fluid">
-
     <div class="container">
       <h1 class=" text-center mb-4">Admin Ankasa</h1>
       <!-- Add Box -->
@@ -11,7 +10,7 @@
         </section>
       </div>
       <!-- All Ticket -->
-      <div v-for="(data, index) in tickets" :key="index" >
+      <div v-for="(data, index) in this.$store.state.tickets" :key="index" >
         <div class="row">
           <div class="ticket-box w-100 mb-5" @click="handleTicket(data)">
             <!-- Image and Name -->
@@ -98,7 +97,6 @@
                 </div>
                 <br>
               </div>
-              <br>
               <!-- Explain 3 -->
               <div class=" mb-4 col-lg-4 d-flex d-lg-block">
                 <div class="col-4 col-lg-12 explain">
@@ -309,6 +307,7 @@ h1 {
   border-radius: 15px;
   padding: 42px 0;
   cursor: pointer;
+  transition: .3s;
   h6 {
     font-family: Poppins;
     font-style: normal;
@@ -317,6 +316,10 @@ h1 {
     line-height: 24px;
     color: #414141;
   }
+}
+
+.add-box:hover {
+  opacity: .8;
 }
 
 @media (max-width: 991px) {

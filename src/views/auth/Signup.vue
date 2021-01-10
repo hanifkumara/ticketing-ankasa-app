@@ -12,7 +12,7 @@
       <input :class="this.errEmail === 'err' ? 'form-input-err':'form-input' " @input="handleEmail" v-model="email" type="email" placeholder="Email" required>
       <div class="space-32 w-100"><h4 v-if="this.errEmail === 'err'" class="mt-2">Format email is incorrect</h4></div>
       <!-- Password -->
-      <input :class="this.errPass === 'err' ? 'form-input-err':'form-input' " @input="handlePass" v-model="password" type="password" placeholder="Password" minlength="8" required>
+      <input :class="this.errPass === 'err' ? 'form-input-err':'form-input' " @input="handlePass" v-model="password" type="password" placeholder="Password" minlength="5" required>
       <div class="space-32 w-100"><h4 v-if="this.errPass === 'err'" class="mt-2">Password must be 8 character</h4></div>
       <div class="space-32 w-100"></div>
       <!-- Button Register -->
@@ -72,7 +72,7 @@ export default {
       }
     },
     handlePass () {
-      if (this.password.length < 8) {
+      if (this.password.length < 5) {
         this.errPass = 'err'
       } else {
         this.errPass = ''
@@ -128,6 +128,11 @@ h1 {
 }
 
 h4 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1em;
   color: #FF5B37;
 }
 

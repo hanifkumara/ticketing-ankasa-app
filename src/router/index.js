@@ -24,6 +24,9 @@ import MainAdmin from '../views/admin/MainAdmin.vue'
 import Admin from '../views/admin/Admin.vue'
 import AddTicket from '../views/admin/AddTicket.vue'
 
+// Dropdown
+import TryDropdown from '../views/admin/TryDropdown.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -154,6 +157,14 @@ const routes = [
         path: 'addticket',
         name: 'AddTicket',
         component: AddTicket,
+        meta: {
+          requiresAdmin: true
+        }
+      },
+      {
+        path: 'drop',
+        name: 'TryDropdown',
+        component: TryDropdown,
         meta: {
           requiresAdmin: true
         }
