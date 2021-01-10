@@ -33,12 +33,10 @@
             </div>
             <p class="title-desc" style="margin-top: 20px;">Departure</p>
             <h5>{{setDetailMyTicket.date_departure | moment("dddd, MMMM Do YYYY")}} - {{setDetailMyTicket.time_departure}}</h5>
-            <!-- <p v-if="new Date() | moment('dddd, MMMM Do YYYY') < setDetailMyTicket.date_departure | moment('dddd, MMMM Do YYYY')">Ora make sense</p>
-            <p v-else>Subhanallah</p> -->
           </div>
           <div class="content-right">
             <div class="qrcode">
-              <img src="@/assets/image/Mask Group.png" alt="QRCode">
+              <img :src="setDetailMyBooking.qrcode" alt="QRCode">
             </div>
           </div>
         </div>
