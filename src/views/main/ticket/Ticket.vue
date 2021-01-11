@@ -28,16 +28,90 @@
           <h2 @click="resetCheck">Reset</h2>
         </span>
 
-        <div class="box-filter" v-for="(filter, indexFilter) in filters" :key="filter.name">
-          <span @click="filter.collapse = !filter.collapse">
-            <h5>{{filter.name}}</h5>
-            <p>{{ filter.collapse ? '-' : '+' }}</p>
+        <div class="box-filter">
+          <span @click="collapse = !collapse">
+            <h5>Transit</h5>
+            <p>{{ collapse ? '-' : '+' }}</p>
           </span>
-          <div class="list-filter" :class="{ 'collapse': !filter.collapse }">
-            <span v-for="(li, IndexliFilter) in filter.li" :key="li.name">
-              <p>{{ li.name }}</p>
-              <input type="checkbox" name="chek" id="direct"
-              v-bind="checkbox" :checked="li.check" @change="filterCheckbox(filter, indexFilter, IndexliFilter)">
+          <div class="list-filter" :class="{ 'collapse': !collapse }">
+            <span>
+              <p>Direct</p>
+               <input type="radio" name="Transit" value="direct" v-model="transit" @click="uncheck('Transit','direct')">
+            </span>
+            <span>
+              <p>Transit</p>
+               <input type="radio" name="Transit" value="transit" v-model="transit" @click="uncheck('Transit','transit')">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseTwo = !collapseTwo">
+            <h5>Departure Time</h5>
+            <p>{{ collapseTwo ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseTwo }">
+             <span>
+              <p>00:00 - 06:00</p>
+               <input type="radio" name="time_departure" value="00:00-06:00" v-model="time_departure" @click="uncheck('time_departure','00:00-06:00')">
+            </span>
+            <span>
+              <p>06:00 - 12:00</p>
+               <input type="radio" name="time_departure" value="06:00-12:00" v-model="time_departure" @click="uncheck('time_departure','06:00-12:00')">
+            </span>
+             <span>
+              <p>12:00 - 18:00</p>
+               <input type="radio" name="time_departure" value="12:00-18:00" v-model="time_departure" @click="uncheck('time_departure','12:00-18:00')">
+            </span>
+            <span>
+              <p>18:00 - 24:00</p>
+               <input type="radio" name="time_departure" value="18:00-24:00" v-model="time_departure" @click="uncheck('time_departure','18:00-24:00')">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseThree = !collapseThree">
+            <h5>Time Arrived</h5>
+            <p>{{ collapseThree ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseThree }">
+             <span>
+              <p>00:00 - 06:00</p>
+               <input type="radio" name="time_arrived" value="00:00-06:00" v-model="time_arrived" @click="uncheck('time_arrived','00:00-06:00')">
+            </span>
+            <span>
+              <p>06:00 - 12:00</p>
+               <input type="radio" name="time_arrived" value="06:00-12:00" v-model="time_arrived" @click="uncheck('time_arrived','06:00-12:00')">
+            </span>
+             <span>
+              <p>12:00 - 18:00</p>
+               <input type="radio" name="time_arrived" value="12:00-18:00" v-model="time_arrived" @click="uncheck('time_arrived','12:00-18:00')">
+            </span>
+            <span>
+              <p>18:00 - 24:00</p>
+               <input type="radio" name="time_arrived" value="18:00-24:00" v-model="time_arrived" @click="uncheck('time_arrived','18:00-24:00')">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseFour = !collapseFour">
+            <h5>Airlines</h5>
+            <p>{{ collapseFour ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseFour }">
+             <span>
+              <p>Air Asia</p>
+               <input type="radio" name="name_maskapai" value="air_asia" v-model="name_maskapai" @click="uncheck('name_maskapai','air_asia')">
+            </span>
+            <span>
+              <p>Garuda Indonesia</p>
+               <input type="radio" name="name_maskapai" value="garuda" v-model="name_maskapai" @click="uncheck('name_maskapai','garuda')">
+            </span>
+             <span>
+              <p>Lion Air</p>
+               <input type="radio" name="name_maskapai" value="lion_air" v-model="name_maskapai" @click="uncheck('name_maskapai','lion_air')">
             </span>
           </div>
         </div>
@@ -94,90 +168,14 @@ export default {
   data () {
     return {
       checkbox: '',
-      filters: [
-        {
-          name: 'Transit',
-          nameData: 'transit',
-          li: [
-            {
-              name: 'Direct',
-              check: false,
-              query: '&transit=direct'
-            },
-            {
-              name: 'Transit',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Departure Time',
-          nameData: 'time_departure',
-          li: [
-            {
-              name: '00:00-06:00',
-              check: false
-            },
-            {
-              name: '07:30-10:00',
-              check: false
-            },
-            {
-              name: '20:00-00:30',
-              check: false
-            },
-            {
-              name: '10:00-12:30',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Time Arrived',
-          nameData: 'time_arrived',
-          li: [
-            {
-              name: '00:00-06:00',
-              check: false
-            },
-            {
-              name: '07:30-10:00',
-              check: false
-            },
-            {
-              name: '20:00-00:30',
-              check: false
-            },
-            {
-              name: '10:00-12:30',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Airlines',
-          nameData: 'name_maskapai',
-          li: [
-            {
-              name: 'Garuda Indonesia',
-              check: false
-            },
-            {
-              name: 'Air Asia',
-              check: false
-            },
-            {
-              name: 'City Link',
-              check: false
-            }
-          ],
-          collapse: false
-        }
-      ],
-      query: []
+      collapse: false,
+      collapseTwo: false,
+      collapseThree: false,
+      collapseFour: false,
+      transit: '',
+      time_departure: '',
+      time_arrived: '',
+      name_maskapai: ''
     }
   },
   methods: {
@@ -187,18 +185,33 @@ export default {
         e.li.check = false
       })
     },
-    filterCheckbox (filter, indexFilter, IndexliFilter) {
-      this.filters[indexFilter].li[IndexliFilter].checkbox = !this.filters[indexFilter].li[IndexliFilter].checkbox
-      if (this.filters[indexFilter].li[IndexliFilter].checkbox) {
-        this.query.push({ query: `&${this.filters[indexFilter].nameData}=${this.filters[indexFilter].li[IndexliFilter].name}` })
-        this.query.map((e) => {
-          console.log(e.query)
-        })
-        // console.log(t)
-      } else {
-        console.log(this.filters[indexFilter].li[IndexliFilter].name + ' is = ' + this.filters[indexFilter].li[IndexliFilter].checkbox)
+    uncheck (filter, name) {
+      if (filter === 'Transit') {
+        if (name === this.transit) {
+          this.transit = ''
+        }
+      } else if (filter === 'time_departure') {
+        if (name === this.time_departure) {
+          this.time_departure = ''
+        }
+      } else if (filter === 'time_arrived') {
+        if (name === this.time_arrived) {
+          this.time_arrived = ''
+        }
+      } else if (filter === 'name_maskapai') {
+        if (name === this.name_maskapai) {
+          this.name_maskapai = ''
+        }
       }
-      console.log(this.query)
+      setTimeout(() => {
+        const payload = {
+          transit: this.transit,
+          time_departure: this.time_departure,
+          time_arrived: this.time_arrived,
+          name_maskapai: this.name_maskapai
+        }
+        this.$store.commit('SET_FILTER', payload)
+      }, 50)
     }
   }
 }

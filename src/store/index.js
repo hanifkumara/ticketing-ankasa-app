@@ -50,11 +50,33 @@ export default new Vuex.Store({
         transit: 'transit',
         class: 'first_class'
       }
-    ]
+    ],
+    search: {
+      city_departure: 'jakarta',
+      country_departure: 'IDN',
+      city_arrived: 'tokyo',
+      country_arrived: 'JPN',
+      ticket_type: 'round_trip',
+      date_departure: '2021-01-29',
+      child_person: 2,
+      adult_person: 4,
+      class: 'economy',
+      transit: '',
+      time_departure: '',
+      time_arrived: '',
+      name_maskapai: '',
+      sort: ''
+    }
   },
   mutations: {
     SET_MY_PROFILE (state, payload) {
       state.myProfile = payload
+    },
+    SET_FILTER (state, payload) {
+      state.search.transit = payload.transit
+      state.search.time_departure = payload.time_departure
+      state.search.time_arrived = payload.time_arrived
+      state.search.name_maskapai = payload.name_maskapai
     }
   },
   actions: {
