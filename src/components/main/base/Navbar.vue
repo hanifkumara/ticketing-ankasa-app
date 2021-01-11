@@ -30,8 +30,8 @@
           </div>
           <!-- My Booking -->
           <div @click="goPageBook" class="tab-navbar my-auto d-flex flex-column justify-content-center align-items-center">
-            <h4 :class="this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab-name':'inactive-tab-name' ">My Booking</h4>
-            <div :class="this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab':'inactive-tab' "></div>
+            <h4 :class="this.currentUrl === `/main/payment/${this.$route.params.id}` || this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab-name':'inactive-tab-name' ">My Booking</h4>
+            <div :class="this.currentUrl === `/main/payment/${this.$route.params.id}` || this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab':'inactive-tab' "></div>
           </div>
         </div>
 
