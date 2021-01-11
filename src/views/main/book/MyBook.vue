@@ -62,11 +62,12 @@
             <p style="color: #2395FF; font-size: 14px">MY BOOKING</p>
             <div class="d-flex justify-content-between align-items-center">
               <h3>My Booking</h3>
+              {{lastPage}}
               <p style="color: #2395FF; font-size: 14px; font-weight: 700">Order History</p>
             </div>
           </div>
           <div class="container-card-booking">
-            <div class="card-booking" v-for="data in setMyBooking" :key="data.id">
+            <div class="card-booking" v-for="data in myBooking" :key="data.id">
               <p class="date-time">{{data.ticket.date_departure}} - {{data.ticket.time_departure}}</p>
               <div class="from-to d-flex">
                 <h4 class="from">{{data.ticket.country_departure}}</h4>
@@ -88,6 +89,7 @@
                 </div>
               </div>
             </div>
+            <div v-if="myBooking.length" v-observe-visibility="handleScrolledToBotom"></div>
           </div>
         </div>
       </div>
@@ -101,8 +103,22 @@ import Swal from 'sweetalert2'
 
 export default {
   name: 'MyBook',
+  data () {
+    return {
+      page: 1,
+      myBooking: [],
+      lastPage: null
+    }
+  },
   methods: {
     ...mapActions(['getMyProfile', 'getMyBooking', 'updateProfile', 'deleteMyBooking']),
+    handleMyBooking () {
+      this.getMyBooking(this.page)
+        .then(res => {
+          this.lastPage = res.data.rows
+          this.myBooking.push(...res.data.result)
+        })
+    },
     handlePhoto (e) {
       const result = e.target.files[0]
       const data = new FormData()
@@ -140,11 +156,17 @@ export default {
     },
     toPayment (idBooking) {
       this.$router.push({ path: `/main/payment/${idBooking}`, params: { id: idBooking } })
+    },
+    handleScrolledToBotom (isVisible) {
+      if (!isVisible) { return }
+      this.page++
+      this.handleMyBooking()
     }
   },
   mounted () {
     this.getMyProfile()
-    this.getMyBooking()
+    this.handleMyBooking()
+    this.getMyBooking(this.page)
       .then(() => {
         const result = this.setMyBooking[0].ticket.date_departure
         console.log(new Date('MM/DD/YYYY'))
@@ -275,7 +297,7 @@ input[type="file"] {
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 10px;
 }
 
 /* Track */

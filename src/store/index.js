@@ -85,9 +85,9 @@ export default new Vuex.Store({
           })
       })
     },
-    getMyBooking (context) {
+    getMyBooking (context, page) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_BASE_URL}/booking/my-booking`)
+        axios.get(`${process.env.VUE_APP_BASE_URL}/booking/my-booking?page=${page}`)
           .then((result) => {
             const resData = result.data.result
             context.commit('SET_MY_BOOKING', resData)

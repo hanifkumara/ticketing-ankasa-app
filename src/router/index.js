@@ -27,6 +27,7 @@ import AddTicket from '../views/admin/AddTicket.vue'
 
 // Dropdown
 import TryDropdown from '../views/admin/TryDropdown.vue'
+import Dev from '../views/Dev.vue'
 
 Vue.use(VueRouter)
 
@@ -171,6 +172,11 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/dev',
+    name: 'Dev',
+    component: Dev
   }
 ]
 
