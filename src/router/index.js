@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Landing from '../views/Landing.vue'
+import Swal from 'sweetalert2'
 
 // Auth
 import MainAuth from '../views/auth/MainAuth.vue'
@@ -201,6 +202,7 @@ router.beforeEach((to, from, next) => {
       next({
         path: '/auth/login'
       })
+      Swal.fire('You must login', '', 'error')
     } else {
       next()
     }
@@ -209,6 +211,7 @@ router.beforeEach((to, from, next) => {
       next({
         path: '/main/search'
       })
+      Swal.fire('You alreadry login', '', 'error')
     } else {
       next()
     }
