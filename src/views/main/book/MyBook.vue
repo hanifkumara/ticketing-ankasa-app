@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 <template>
   <div class="bg">
     <div class="container">
@@ -76,10 +77,15 @@
               </div>
               <p class="desc-booking">{{data.ticket.name_maskapai}}, {{data.id}}</p>
               <hr style="color: #E6E6E6;">
-              <div class="footer-card d-flex align-items-center">
-                <h6>Status</h6>
-                <div v-if="data.status === 'pending'" class="waiting-payment">Waiting for payment</div>
-                <div v-else class="eticket-issues" @click="detailBooking(data.id)">Eticket Issues</div>
+              <div class="footer-card d-flex align-items-center justify-content-between">
+                <div class="footer-card-left d-flex align-items-center">
+                  <h6 style="margin-right: 20px;">Status</h6>
+                  <div v-if="data.status === 'pending'" @click="toPayment(data.id)" class="waiting-payment">Waiting for payment</div>
+                  <div v-else class="eticket-issues" @click="detailBooking(data.id)">Eticket Issues</div>
+                </div>
+                <div v-if="data.status === 'success'" @click="deleteMyBooking(data.id)" class="footer-card-right">
+                  <div class="badge badge-danger">Delete</div>
+                </div>
               </div>
             </div>
           </div>
@@ -96,7 +102,7 @@ import Swal from 'sweetalert2'
 export default {
   name: 'MyBook',
   methods: {
-    ...mapActions(['getMyProfile', 'getMyBooking', 'updateProfile']),
+    ...mapActions(['getMyProfile', 'getMyBooking', 'updateProfile', 'deleteMyBooking']),
     handlePhoto (e) {
       const result = e.target.files[0]
       const data = new FormData()
@@ -131,13 +137,18 @@ export default {
     },
     toProfile () {
       this.$router.push({ name: 'Profile' })
+    },
+    toPayment (idBooking) {
+      this.$router.push({ path: `/main/payment/${idBooking}`, params: { id: idBooking } })
     }
   },
   mounted () {
     this.getMyProfile()
     this.getMyBooking()
       .then(() => {
-        console.log(this.setMyBooking)
+        const result = this.setMyBooking[0].ticket.date_departure
+        console.log(new Date('MM/DD/YYYY'))
+        console.log(result)
       })
   },
   computed: {
@@ -244,6 +255,7 @@ input[type="file"] {
   display: flex;
   margin-top: 30px;
   padding: 5px 0;
+  cursor: pointer;
 }
 .profile > p{
   margin: 0;
@@ -257,8 +269,28 @@ input[type="file"] {
   border-radius: 15px;
 }
 .container-card-booking{
+  height: 610px;
+  overflow: auto;
   margin-top: 30px;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px white;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
 .card-booking{
   margin-top: 10px;
   padding: 15px 15px;
@@ -271,12 +303,14 @@ input[type="file"] {
   border-radius: 7px;
   background: #FF7F23;
   color: white;
+  cursor: pointer;
 }
 .eticket-issues{
   width: fit-content;
   padding: 7px 15px;
   color: white;
   background: #4FCF4D;
+  cursor: pointer;
   border-radius: 6px;
 }
 .footer-card > h6{

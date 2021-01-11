@@ -11,7 +11,7 @@
           <div class="content-left">
             <div class="left-top d-flex align-items-center justify-content-between">
               <div class="logo-airlines">
-                <img src="@/assets/image/garuda-indonesia-logo-BD82882F07-seeklogo 3.png" alt="Logo Airlanes">
+                <img :src="setDetailMyTicket.images" alt="Logo Airlanes">
               </div>
               <h2 class="from">{{setDetailMyTicket.country_departure}}</h2>
               <div class="icon-airlines">

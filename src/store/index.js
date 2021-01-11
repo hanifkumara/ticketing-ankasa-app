@@ -115,6 +115,19 @@ export default new Vuex.Store({
           })
       })
     },
+    deleteMyBooking (context, idBooking) {
+      return new Promise((resolve, reject) => {
+        axios.delete(`${process.env.VUE_APP_BASE_URL}/booking/delete/${idBooking}`)
+          .then((result) => {
+            context.dispatch('getMyBooking')
+            Swal.fire('Delete Success', '', 'success')
+            resolve(result)
+          }).catch((err) => {
+            console.log(err.response)
+            reject(err)
+          })
+      })
+    },
     updateProfile (context, payload) {
       return new Promise((resolve, reject) => {
         console.log(payload)
