@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from '../router/index'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -93,6 +95,11 @@ export default new Vuex.Store({
           })
       })
     },
+    logout (context) {
+      localStorage.clear()
+      Swal.fire('Logout Success', 'see you again', 'success')
+      router.push({ name: 'Login' })
+    },
     interceptorRequest () {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
@@ -105,17 +112,20 @@ export default new Vuex.Store({
       axios.interceptors.response.use(function (response) {
         return response
       }, function (error) {
+        console.log(error.response)
         if (error.response.status === 401) {
-          if (error.response.data.err === 'Invalid Token') {
+          if (error.response.data.message.message === 'Invalid Token') {
             localStorage.removeItem('token')
             localStorage.removeItem('id')
             context.commit('REMOVE_ALL')
-            this.$router.push('/login')
-          } else if (error.response.data.err === 'Token Expired') {
+            Swal.fire('Invalid Token', 'Please login again', 'error')
+            router.push({ name: 'Login' })
+          } else if (error.response.data.message.message === 'Token Expired') {
             localStorage.removeItem('token')
             localStorage.removeItem('id')
             context.commit('REMOVE_ALL')
-            this.$router.push('/login')
+            Swal.fire('Token Expired', 'Please aogin again', 'error')
+            router.push({ name: 'Login' })
           }
         }
         return Promise.reject(error)

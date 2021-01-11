@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="list-butttom ml-1">
-              <div v-b-modal.modal-1 class="profile">
+              <div @click="toProfile" class="profile">
                 <div class="icon">
                   <img src="@/assets/image/user.png" alt="Icon User">
                 </div>
@@ -41,7 +41,7 @@
                 </div>
                 <p>My Review</p>
               </div>
-              <div v-b-modal.modal-1 class="profile">
+              <div @click="toProfile" class="profile">
                 <div class="icon">
                   <img src="@/assets/image/Vector (1).png" alt="Icon Settings">
                 </div>
@@ -53,25 +53,6 @@
                 </div>
                 <p>Logout</p>
               </div>
-              <b-modal hide-footer id="modal-1" title="Update my Profile" class="modal-update">
-                <h4>Contact :</h4>
-                <label for="">Email</label>
-                <input type="text" class="form-control" placeholder="flightbooking@ankasa.com">
-                <label for="">Phone</label>
-                <input type="text" class="form-control" placeholder="+628739729371">
-                <h4 style="margin-top: 30px">Biodata :</h4>
-                <label for="">Fullname</label>
-                <input type="text" class="form-control" placeholder="Hanif Kumara">
-                <label for="">City</label>
-                <input type="text" class="form-control" placeholder="Solo">
-                <label for="">Country</label>
-                <input type="text" class="form-control" placeholder="Indonesia">
-                <div class="button-save">
-                  <button class="save">
-                    Save
-                  </button>
-                </div>
-              </b-modal>
             </div>
           </div>
         </div>
@@ -147,6 +128,9 @@ export default {
     },
     detailBooking (idBooking) {
       this.$router.push({ name: 'DetailBook', params: { id: idBooking } })
+    },
+    toProfile () {
+      this.$router.push({ name: 'Profile' })
     }
   },
   mounted () {

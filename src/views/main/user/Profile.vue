@@ -48,7 +48,7 @@
                 </div>
                 <p>Settings</p>
               </div>
-              <div class="profile">
+              <div @click="logout" class="profile">
                 <div class="icon">
                   <img src="@/assets/image/Vector (2).png" alt="Icon Logout">
                 </div>
@@ -87,23 +87,23 @@
                 <div class="left-form">
                   <h4>Contact</h4>
                     <label for="email">Email</label>
-                    <input class="form-control" id="email" type="text" v-model="email" :placeholder="setMyProfile.email" autocomplete="off">
-                    <p class="text-danger validation" v-if="email.length > 1 && !email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)">Format email invalid</p>
+                    <input class="form-control" id="email" type="text" @input="handleEmail" v-model="setMyProfile.email" autocomplete="off">
+                    <p class="text-danger validation" v-if="errEmail">Format email invalid</p>
                     <label for="phone">Phone</label>
-                    <input class="form-control" id="phone" type="text" v-if="setMyProfile.phone" v-model="phone" :placeholder="setMyProfile.phone"  autocomplete="off">
-                    <input class="form-control" id="phone" type="text" v-else v-model="phone" placeholder="Please set your phone number" autocomplete="off">
+                    <input class="form-control" id="phone" type="text" v-if="setMyProfile.phone" v-model="setMyProfile.phone" :placeholder="setMyProfile.phone"  autocomplete="off">
+                    <input class="form-control" id="phone" type="text" v-else v-model="setMyProfile.phone" placeholder="Please set your phone number" autocomplete="off">
                 </div>
                 <div class="right-form">
                   <h4>Biodata</h4>
                     <label for="fullname">Fullname</label>
-                    <input class="form-control" id="fullname" type="text" v-model="fullname" :placeholder="setMyProfile.fullname" autocomplete="off">
-                    <p class="text-danger validation" v-if="fullname.length > 1 && fullname.length <= 7">Fullname must than 7 char</p>
+                    <input class="form-control" id="fullname" type="text" @input="handleFullname" v-model="setMyProfile.fullname" :placeholder="setMyProfile.fullname" autocomplete="off">
+                    <p class="text-danger validation" v-if="errFullname">Fullname must than 7 char</p>
                     <label for="city">City</label>
-                    <input type="text" class="form-control" v-if="setMyProfile.city" v-model="city" :placeholder="setMyProfile.city"  autocomplete="off">
-                    <input type="text" class="form-control" v-else v-model="city" placeholder="Please set your city" autocomplete="off">
+                    <input type="text" class="form-control" v-if="setMyProfile.city" v-model="setMyProfile.city" autocomplete="off">
+                    <input type="text" class="form-control" v-else v-model="setMyProfile.city" placeholder="Please set your city" autocomplete="off">
                     <label for="country">Country</label>
-                    <input type="text" class="form-control" v-if="setMyProfile.country" v-model="country" :placeholder="setMyProfile.country" autocomplete="off">
-                    <input type="text" class="form-control" v-else v-model="country" placeholder="Please set your country" autocomplete="off">
+                    <input type="text" class="form-control" v-if="setMyProfile.country" v-model="setMyProfile.country" autocomplete="off">
+                    <input type="text" class="form-control" v-else v-model="setMyProfile.country" placeholder="Please set your country" autocomplete="off">
                 </div>
               </div>
               <div class="button-save">
@@ -132,11 +132,13 @@ export default {
       fullname: '',
       city: '',
       country: '',
+      errEmail: '',
+      errFullname: '',
       image: null
     }
   },
   methods: {
-    ...mapActions(['updateProfile', 'getMyProfile']),
+    ...mapActions(['updateProfile', 'getMyProfile', 'logout']),
     handlePhoto (e) {
       const result = e.target.files[0]
       const data = new FormData()
@@ -168,7 +170,7 @@ export default {
         })
     },
     handleSubmit () {
-      if (!this.email) {
+      if (!this.setMyProfile.email) {
         Swal.fire(
           'Fill email required',
           '',
@@ -176,7 +178,7 @@ export default {
         )
         return
       }
-      if (!this.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+      if (!this.setMyProfile.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
         Swal.fire(
           'Format email invalid',
           '',
@@ -184,7 +186,7 @@ export default {
         )
         return
       }
-      if (!this.phone) {
+      if (!this.setMyProfile.phone) {
         Swal.fire(
           'Fill phone required',
           '',
@@ -192,7 +194,7 @@ export default {
         )
         return
       }
-      if (!this.fullname) {
+      if (!this.setMyProfile.fullname) {
         Swal.fire(
           'Fill fullname required',
           '',
@@ -200,7 +202,7 @@ export default {
         )
         return
       }
-      if (this.fullname <= 7) {
+      if (this.setMyProfile.fullname.length <= 7) {
         Swal.fire(
           'Fullname must than 7 char',
           '',
@@ -208,7 +210,7 @@ export default {
         )
         return
       }
-      if (!this.city) {
+      if (!this.setMyProfile.city) {
         Swal.fire(
           'Fill city required',
           '',
@@ -216,7 +218,7 @@ export default {
         )
         return
       }
-      if (!this.country) {
+      if (!this.setMyProfile.country) {
         Swal.fire(
           'Fill country required',
           '',
@@ -224,11 +226,11 @@ export default {
         )
       } else {
         const payload = {
-          email: this.email,
-          phone: this.phone,
-          fullname: this.fullname,
-          city: this.city,
-          country: this.country
+          email: this.setMyProfile.email,
+          phone: this.setMyProfile.phone,
+          fullname: this.setMyProfile.fullname,
+          city: this.setMyProfile.city,
+          country: this.setMyProfile.country
         }
         this.updateProfile(payload)
           .then((result) => {
@@ -244,6 +246,20 @@ export default {
           .catch((err) => {
             console.log(err)
           })
+      }
+    },
+    handleEmail () {
+      if (!this.setMyProfile.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+        this.errEmail = 'err'
+      } else {
+        this.errEmail = ''
+      }
+    },
+    handleFullname () {
+      if (this.setMyProfile.fullname.length <= 7) {
+        this.errFullname = 'err'
+      } else {
+        this.errFullname = ''
       }
     }
   },
