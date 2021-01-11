@@ -190,15 +190,26 @@ export default {
     filterCheckbox (filter, indexFilter, IndexliFilter) {
       this.filters[indexFilter].li[IndexliFilter].checkbox = !this.filters[indexFilter].li[IndexliFilter].checkbox
       if (this.filters[indexFilter].li[IndexliFilter].checkbox) {
-        this.query.push({ query: `&${this.filters[indexFilter].nameData}=${this.filters[indexFilter].li[IndexliFilter].name}` })
+        const newQuery = `&${this.filters[indexFilter].nameData}=${this.filters[indexFilter].li[IndexliFilter].name}`
+        if (this.query.length === 0) this.query.push({ query: newQuery })
         this.query.map((e) => {
-          console.log(e.query)
+          const queryData = e.query.split('&')[1].split('=')[0]
+          const queryNew = newQuery.split('&')[1].split('=')[0]
+          // if (queryData === queryNew) {
+          //   return ''
+          // } else {
+          //   this.query.push({ query: newQuery })
+          // }
+          console.log(queryData + ' - ' + queryNew)
         })
-        // console.log(t)
+        // let queryParams = ''
+        // this.query.map((i) => {
+        //   queryParams += i.query
+        // })
+        // console.log(queryParams)
       } else {
         console.log(this.filters[indexFilter].li[IndexliFilter].name + ' is = ' + this.filters[indexFilter].li[IndexliFilter].checkbox)
       }
-      console.log(this.query)
     }
   }
 }
