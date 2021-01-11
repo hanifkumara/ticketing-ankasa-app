@@ -67,7 +67,7 @@
             </div>
           </div>
           <div class="container-card-booking">
-            <div class="card-booking" v-for="(data, index) in myBooking" :key="index">
+            <div class="card-booking" v-for="data in myBooking" :key="data.id">
               <p class="date-time">{{data.ticket.date_departure}} - {{data.ticket.time_departure}}</p>
               <div class="from-to d-flex">
                 <h4 class="from">{{data.ticket.country_departure}}</h4>
@@ -84,7 +84,7 @@
                   <div v-if="data.status === 'pending'" @click="toPayment(data.id)" class="waiting-payment">Waiting for payment</div>
                   <div v-else class="eticket-issues" @click="detailBooking(data.id)">Eticket Issues</div>
                 </div>
-                <div v-if="data.status === 'success'" @click="handleDelete(data.id)" class="footer-card-right">
+                <div v-if="data.status === 'success'" ref="deleteBooking" @click="handleDelete(data.id)" class="footer-card-right">
                   <div class="badge badge-danger">Delete</div>
                 </div>
               </div>
@@ -124,12 +124,8 @@ export default {
     handleDelete (idBooking) {
       this.deleteMyBooking(idBooking)
         .then(() => {
-          console.log('mantap')
-          setTimeout(() => {
-            this.handleMyBooking()
-          }, 1000)
-          console.log(this.page)
           Swal.fire('Delete Success', '', 'success')
+          console.log(this.$refs.deleteBooking[0].parentNode.parentNode.remove())
         })
     },
     handlePhoto (e) {
