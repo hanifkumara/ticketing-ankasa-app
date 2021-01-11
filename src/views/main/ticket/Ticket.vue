@@ -103,15 +103,15 @@
           <div class="list-filter" :class="{ 'collapse': !collapseFour }">
              <span>
               <p>Air Asia</p>
-               <input type="radio" name="name_maskapai" value="air_asia" v-model="query.name_maskapai" @click="uncheck('name_maskapai','air_asia')">
+               <input type="checkbox" name="name_maskapai" true-value="air_asia" false-value="" v-model="query.name_maskapai" @change="uncheck">
             </span>
             <span>
               <p>Garuda Indonesia</p>
-               <input type="radio" name="name_maskapai" value="garuda" v-model="query.name_maskapai" @click="uncheck('name_maskapai','garuda')">
+               <input type="checkbox" name="name_maskapai" true-value="garuda" false-value="" v-model="query.name_maskapai" @change="uncheck">
             </span>
              <span>
               <p>Lion Air</p>
-               <input type="radio" name="name_maskapai" value="lion_air" v-model="query.name_maskapai" @click="uncheck('name_maskapai','lion_air')">
+               <input type="checkbox" name="name_maskapai" true-value="lion_air" false-value="" v-model="query.name_maskapai" @change="uncheck">
             </span>
           </div>
         </div>
@@ -212,31 +212,19 @@ export default {
     },
     uncheck (filter, name) {
       if (filter === 'Transit') {
-        if (name === this.transit) {
-          this.transit = ''
-        }
+        this.query.transit = name
       } else if (filter === 'time_departure') {
-        if (name === this.time_departure) {
-          this.time_departure = ''
-        }
+        this.query.time_departure = name
       } else if (filter === 'time_arrived') {
-        if (name === this.time_arrived) {
-          this.time_arrived = ''
-        }
-      } else if (filter === 'name_maskapai') {
-        if (name === this.name_maskapai) {
-          this.name_maskapai = ''
-        }
+        this.query.time_arrived = name
       }
-      setTimeout(() => {
-        const payload = {
-          transit: this.transit,
-          time_departure: this.time_departure,
-          time_arrived: this.time_arrived,
-          name_maskapai: this.name_maskapai
-        }
-        this.$store.commit('SET_FILTER', payload)
-      }, 50)
+      const payload = {
+        transit: this.query.transit,
+        time_departure: this.query.time_departure,
+        time_arrived: this.query.time_arrived,
+        name_maskapai: this.query.name_maskapai
+      }
+      this.$store.commit('SET_FILTER', payload)
       this.getDataSearch({ search: this.tiketDetail, query: this.query })
     }
   }
