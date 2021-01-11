@@ -22,13 +22,13 @@
         <img src="../assets/btnback.png" alt="btnback">
       </div>
       <div class="section-text ml-4 mt-3 d-flex justify-content-between pl-3 pr-3">
-        <div class="text1"> <!-- display flex , flex-direction colom-->
+        <div class="text1">
           <p>From</p>
           <h6>Medan</h6>
           <i>Indonesia</i>
         </div>
         <img src="../assets/row.png" alt="row" class="ml-5 mr-5 mt-4">
-        <div class="text1"> <!-- display flex , flex-direction colom -->
+        <div class="text1">
           <p>To</p>
           <h6>Tokyo</h6>
           <i>Japan</i>
