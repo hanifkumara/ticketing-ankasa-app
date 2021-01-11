@@ -36,11 +36,11 @@
           <div class="list-filter" :class="{ 'collapse': !collapse }">
             <span>
               <p>Direct</p>
-               <input type="radio" name="Transit" value="direct" v-model="query.transit" @click="uncheck('Transit','direct')">
+               <input type="checkbox" name="Transit" true-value="direct" false-value="" v-model="query.transit" @change="uncheck()">
             </span>
             <span>
               <p>Transit</p>
-               <input type="radio" name="Transit" value="transit" v-model="query.transit" @click="uncheck('Transit','transit')">
+               <input type="checkbox" name="Transit" true-value="transit" false-value="" v-model="query.transit" @change="uncheck()">
             </span>
           </div>
         </div>
@@ -53,19 +53,19 @@
           <div class="list-filter" :class="{ 'collapse': !collapseTwo }">
              <span>
               <p>00:00 - 06:00</p>
-               <input type="radio" name="time_departure" value="00:00-06:00" v-model="query.time_departure" @click="uncheck('time_departure','00:00-06:00')">
+               <input type="checkbox" name="time_departure" true-value="00:00-06:00" false-value="" v-model="query.time_departure" @change="uncheck()">
             </span>
             <span>
               <p>06:00 - 12:00</p>
-               <input type="radio" name="time_departure" value="06:00-12:00" v-model="query.time_departure" @click="uncheck('time_departure','06:00-12:00')">
+               <input type="checkbox" name="time_departure" true-value="06:00-12:00" false-value="" v-model="query.time_departure" @change="uncheck()">
             </span>
              <span>
               <p>12:00 - 18:00</p>
-               <input type="radio" name="time_departure" value="12:00-18:00" v-model="query.time_departure" @click="uncheck('time_departure','12:00-18:00')">
+               <input type="checkbox" name="time_departure" true-value="12:00-18:00" false-value="" v-model="query.time_departure" @change="uncheck()">
             </span>
             <span>
               <p>18:00 - 24:00</p>
-               <input type="radio" name="time_departure" value="18:00-24:00" v-model="query.time_departure" @click="uncheck('time_departure','18:00-24:00')">
+               <input type="checkbox" name="time_departure" true-value="18:00-24:00" false-value="" v-model="query.time_departure" @change="uncheck()">
             </span>
           </div>
         </div>
@@ -78,19 +78,19 @@
           <div class="list-filter" :class="{ 'collapse': !collapseThree }">
              <span>
               <p>00:00 - 06:00</p>
-               <input type="radio" name="time_arrived" value="00:00-06:00" v-model="query.time_arrived" @click="uncheck('time_arrived','00:00-06:00')">
+               <input type="checkbox" name="time_arrived" true-value="00:00-06:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','00:00-06:00')">
             </span>
             <span>
               <p>06:00 - 12:00</p>
-               <input type="radio" name="time_arrived" value="06:00-12:00" v-model="query.time_arrived" @click="uncheck('time_arrived','06:00-12:00')">
+               <input type="checkbox" name="time_arrived" true-value="06:00-12:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','06:00-12:00')">
             </span>
              <span>
               <p>12:00 - 18:00</p>
-               <input type="radio" name="time_arrived" value="12:00-18:00" v-model="query.time_arrived" @click="uncheck('time_arrived','12:00-18:00')">
+               <input type="checkbox" name="time_arrived" true-value="12:00-18:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','12:00-18:00')">
             </span>
             <span>
               <p>18:00 - 24:00</p>
-               <input type="radio" name="time_arrived" value="18:00-24:00" v-model="query.time_arrived" @click="uncheck('time_arrived','18:00-24:00')">
+               <input type="checkbox" name="time_arrived" true-value="18:00-24:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','18:00-24:00')">
             </span>
           </div>
         </div>
@@ -103,22 +103,23 @@
           <div class="list-filter" :class="{ 'collapse': !collapseFour }">
              <span>
               <p>Air Asia</p>
-               <input type="radio" name="name_maskapai" value="air_asia" v-model="query.name_maskapai" @click="uncheck('name_maskapai','air_asia')">
+               <input type="checkbox" name="name_maskapai" true-value="air_asia" false-value="" v-model="query.name_maskapai" @change="uncheck">
             </span>
             <span>
               <p>Garuda Indonesia</p>
-               <input type="radio" name="name_maskapai" value="garuda" v-model="query.name_maskapai" @click="uncheck('name_maskapai','garuda')">
+               <input type="checkbox" name="name_maskapai" true-value="garuda" false-value="" v-model="query.name_maskapai" @change="uncheck">
             </span>
              <span>
               <p>Lion Air</p>
-               <input type="radio" name="name_maskapai" value="lion_air" v-model="query.name_maskapai" @click="uncheck('name_maskapai','lion_air')">
+               <input type="checkbox" name="name_maskapai" true-value="lion_air" false-value="" v-model="query.name_maskapai" @change="uncheck">
             </span>
           </div>
         </div>
 
       </div>
       <div class="list-ticket">
-        <div class="box-list-ticket" v-for="tkt in dataTickets.result" :key="tkt.id">
+        <h1 v-if="dataTickets === 'NotFound'">NOT FOUND</h1>
+        <div v-else-if="dataTickets.message === 'get all'" class="box-list-ticket" v-for="tkt in dataTickets.result" :key="tkt.id">
           <div class="ticket-title">
             <img :src="tkt.images" alt="logo">
             <p>{{ tkt.name_maskapai.toUpperCase().replace('_', ' ')  }}</p>
@@ -175,6 +176,7 @@ export default {
   },
   data () {
     return {
+      tiketdDetailLocal: [],
       checkbox: '',
       collapse: false,
       collapseTwo: false,
@@ -210,33 +212,7 @@ export default {
         e.li.check = false
       })
     },
-    uncheck (filter, name) {
-      if (filter === 'Transit') {
-        if (name === this.transit) {
-          this.transit = ''
-        }
-      } else if (filter === 'time_departure') {
-        if (name === this.time_departure) {
-          this.time_departure = ''
-        }
-      } else if (filter === 'time_arrived') {
-        if (name === this.time_arrived) {
-          this.time_arrived = ''
-        }
-      } else if (filter === 'name_maskapai') {
-        if (name === this.name_maskapai) {
-          this.name_maskapai = ''
-        }
-      }
-      setTimeout(() => {
-        const payload = {
-          transit: this.query.transit,
-          time_departure: this.query.time_departure,
-          time_arrived: this.query.time_arrived,
-          name_maskapai: this.query.name_maskapai
-        }
-        this.$store.commit('SET_FILTER', payload)
-      }, 50)
+    uncheck () {
       this.getDataSearch({ search: this.tiketDetail, query: this.query })
     }
   }

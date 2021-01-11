@@ -11,13 +11,13 @@
           <div class="group-input">
             <label for="name">Full Name</label>
             <div class="input-wrap">
-              <input type="text" :value="userData.fullname" disabled>
+              <input type="text" :value="dataUser.fullname" disabled>
             </div>
           </div>
           <div class="group-input">
             <label for="name">Email</label>
             <div class="input-wrap">
-              <input type="text" :value="userData.email" disabled>
+              <input type="text" :value="dataUser.email" disabled>
             </div>
           </div>
           <div class="group-input">
@@ -103,20 +103,20 @@
         </div>
         <div class="box-flight-detail">
             <div class="airlines-det">
-              <img src="../../../../public/img/icons/ticket_d/garuda-indonesia-logo-BD82882F07-seeklogo 1.png" alt="airlines">
-              <p>Garuda Indonesia</p>
+              <img :src="tiket.images" alt="airlines">
+              <p>{{ tiket.name_maskapai }}</p>
             </div>
             <div class="flight-route">
               <span>
-                <h1>MEDAN (IDN)</h1>
+                <h1>{{ tiket.city_departure.toUpperCase() }} ({{tiket.country_departure}})</h1>
               </span>
                 <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
               <span>
-                <h1>TOKYO (JPN)</h1>
+                <h1>{{ tiket.city_arrived.toUpperCase() }} ({{tiket.country_arrived}})</h1>
               </span>
             </div>
             <span>
-              <p>Sunday, 15 August 2020 &middot; 12:33 - 15:21</p>
+              <p>Sunday, 15 August 2020 &middot; {{ tiket.time_departure.slice(0,5) }} - {{ tiket.time_arrived.slice(0,5) }}</p>
             </span>
             <div class="blue-text">
               <p>Refundable</p>
@@ -126,7 +126,7 @@
             </div>
             <div class="price-info">
               <h2>Total payment</h2>
-              <h1>Rp. 200.000</h1>
+              <h1>Rp. {{ tiket.price.toLocaleString('id-ID') }}</h1>
             </div>
         </div>
       </div>
@@ -145,9 +145,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(['dataUser']),
+    ...mapState(['dataUser', 'dataTickets']),
     userData () {
-      return this.user.data.result
+      return this.dataUser.data.result
+    },
+    tiket () {
+      return this.dataTickets.result[0]
     }
   },
   methods: {
@@ -159,7 +162,9 @@ export default {
         status: 'pending'
       }
       this.$store.dispatch('createBooking', data).then((result) => {
-        console.log(result)
+        if (result.data.message === 'created successfully') {
+          this.$router.push('/main/mybook')
+        }
       })
         .catch((error) => console.log(error))
     }
@@ -347,6 +352,7 @@ export default {
   width: 100px;
   height: 50px;
   margin-right: 25px;
+  object-fit: cover;
 }
 .airlines-det p {
   font-family: Poppins;

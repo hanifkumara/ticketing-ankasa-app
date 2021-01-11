@@ -56,6 +56,9 @@ export default new Vuex.Store({
     dataTickets: []
   },
   mutations: {
+    NOTFOUND (state, payload) {
+      state.dataTickets = payload
+    },
     DATA_TICKETS (state, payload) {
       state.dataTickets = payload
     },
