@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Landing from '../views/Landing.vue'
+import Swal from 'sweetalert2'
 
 // Auth
 import MainAuth from '../views/auth/MainAuth.vue'
@@ -15,6 +16,7 @@ import Ticket from '../views/main/ticket/Ticket.vue'
 import DetailTicket from '../views/main/ticket/DetailTicket.vue'
 import MyBook from '../views/main/book/MyBook.vue'
 import DetailBook from '../views/main/book/DetailBook.vue'
+import Payment from '../views/main/book/Payment.vue'
 
 // Profile
 import Profile from '../views/main/user/Profile.vue'
@@ -24,16 +26,16 @@ import MainAdmin from '../views/admin/MainAdmin.vue'
 import Admin from '../views/admin/Admin.vue'
 import AddTicket from '../views/admin/AddTicket.vue'
 
-// Dropdown
-import TryDropdown from '../views/admin/TryDropdown.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'Landing',
-    component: Landing
+    component: Landing,
+    meta: {
+      requiresVisitor: true
+    }
   },
   {
     path: '/auth',
@@ -134,6 +136,14 @@ const routes = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: 'payment/:id',
+        name: 'Payment',
+        component: Payment,
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   },
@@ -157,14 +167,6 @@ const routes = [
         path: 'addticket',
         name: 'AddTicket',
         component: AddTicket,
-        meta: {
-          requiresAdmin: true
-        }
-      },
-      {
-        path: 'drop',
-        name: 'TryDropdown',
-        component: TryDropdown,
         meta: {
           requiresAdmin: true
         }
@@ -200,6 +202,7 @@ router.beforeEach((to, from, next) => {
       next({
         path: '/auth/login'
       })
+      Swal.fire('You must login', '', 'error')
     } else {
       next()
     }
@@ -208,6 +211,7 @@ router.beforeEach((to, from, next) => {
       next({
         path: '/main/search'
       })
+      Swal.fire('You alreadry login', '', 'error')
     } else {
       next()
     }
