@@ -54,6 +54,7 @@ display: block;
 }
 body {
 line-height: 1;
+background: #e0e0e0;
 }
 ol, ul {
 list-style: none;
@@ -95,6 +96,7 @@ button:focus {
 
 body {
   font-family: 'Poppins';
+  background-color: #f5f6fa;
 }
 
 </style>

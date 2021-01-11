@@ -30,8 +30,8 @@
           </div>
           <!-- My Booking -->
           <div @click="goPageBook" class="tab-navbar my-auto d-flex flex-column justify-content-center align-items-center">
-            <h4 :class="this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab-name':'inactive-tab-name' ">My Booking</h4>
-            <div :class="this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab':'inactive-tab' "></div>
+            <h4 :class="this.currentUrl === `/main/payment/${this.$route.params.id}` || this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab-name':'inactive-tab-name' ">My Booking</h4>
+            <div :class="this.currentUrl === `/main/payment/${this.$route.params.id}` || this.currentUrl === '/main/mybook' || this.currentUrl === `/main/mybook/${this.$route.params.id}` ? 'active-tab':'inactive-tab' "></div>
           </div>
         </div>
 
@@ -44,7 +44,7 @@
             <div @click="goProfile" class="container-profile">
               <div class="outline-profile d-flex justify-content-center align-items-center">
                 <div class="wrap-profile">
-                  <img :src="this.photo" alt="profile">
+                  <img :src="this.$store.state.myProfile.photo" alt="profile">
                 </div>
               </div>
             </div>
@@ -64,8 +64,7 @@ export default {
   name: 'Navbar',
   data () {
     return {
-      currentUrl: '',
-      photo: 'https://www.flaticon.com/svg/static/icons/svg/3135/3135715.svg'
+      currentUrl: ''
     }
   },
   methods: {

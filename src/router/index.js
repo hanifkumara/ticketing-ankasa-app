@@ -16,6 +16,7 @@ import Ticket from '../views/main/ticket/Ticket.vue'
 import DetailTicket from '../views/main/ticket/DetailTicket.vue'
 import MyBook from '../views/main/book/MyBook.vue'
 import DetailBook from '../views/main/book/DetailBook.vue'
+import Payment from '../views/main/book/Payment.vue'
 
 // Profile
 import Profile from '../views/main/user/Profile.vue'
@@ -25,17 +26,23 @@ import MainAdmin from '../views/admin/MainAdmin.vue'
 import Admin from '../views/admin/Admin.vue'
 import AddTicket from '../views/admin/AddTicket.vue'
 
+<<<<<<< HEAD
 // Dropdown
 import TryDropdown from '../views/admin/TryDropdown.vue'
 import Dev from '../views/Dev.vue'
 
+=======
+>>>>>>> 79502bc65d17bf05b1567ecb33ceb67061c6e41c
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'Landing',
-    component: Landing
+    component: Landing,
+    meta: {
+      requiresVisitor: true
+    }
   },
   {
     path: '/auth',
@@ -136,6 +143,14 @@ const routes = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: 'payment/:id',
+        name: 'Payment',
+        component: Payment,
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   },
@@ -159,14 +174,6 @@ const routes = [
         path: 'addticket',
         name: 'AddTicket',
         component: AddTicket,
-        meta: {
-          requiresAdmin: true
-        }
-      },
-      {
-        path: 'drop',
-        name: 'TryDropdown',
-        component: TryDropdown,
         meta: {
           requiresAdmin: true
         }
