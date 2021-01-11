@@ -105,7 +105,7 @@
                     <h1>IDN</h1>
                     <p>12:23</p>
                   </span>
-                <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
+                    <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
                   <span>
                     <h1>JPN</h1>
                     <p>15:21</p>
