@@ -11,7 +11,51 @@ export default new Vuex.Store({
     myProfile: {},
     detailMyBooking: {},
     detailMyTicket: {},
-    myBooking: []
+    myBooking: [],
+    tickets: [
+      {
+        id: 1,
+        images: 'https://logos-download.com/wp-content/uploads/2016/05/Lion_Air_logo.png',
+        name_maskapai: 'lion_air',
+        city_departure: 'jakarta',
+        country_departure: 'IDN',
+        city_arrived: 'seol',
+        country_arrived: 'KOR',
+        date_departure: '2021-01-29',
+        time_departure: '19:28:55',
+        date_arrived: '2021-02-22',
+        time_arrived: '22:28:55',
+        date_return: '2021-04-22',
+        time_return: '02:35:25',
+        ticket_type: 'one_way',
+        price: 1500000,
+        child_person: 2,
+        adult_person: 4,
+        transit: 'direct',
+        class: 'economy'
+      },
+      {
+        id: 2,
+        images: 'https://i.pinimg.com/originals/2e/f6/e2/2ef6e2cc6b19f94dfd22c9b61e1d16de.png',
+        name_maskapai: 'garuda',
+        city_departure: 'jakarta',
+        country_departure: 'IDN',
+        city_arrived: 'seol',
+        country_arrived: 'KOR',
+        date_departure: '2021-01-29',
+        time_departure: '19:28:55',
+        date_arrived: '2021-02-22',
+        time_arrived: '22:28:55',
+        date_return: '2021-04-22',
+        time_return: '02:35:25',
+        ticket_type: 'round_trip',
+        price: 2550000,
+        child_person: 2,
+        adult_person: 4,
+        transit: 'transit',
+        class: 'first_class'
+      }
+    ]
   },
   mutations: {
     SET_MY_PROFILE (state, payload) {

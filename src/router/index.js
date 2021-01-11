@@ -20,6 +20,14 @@ import DetailBook from '../views/main/book/DetailBook.vue'
 // Profile
 import Profile from '../views/main/user/Profile.vue'
 
+// Admin
+import MainAdmin from '../views/admin/MainAdmin.vue'
+import Admin from '../views/admin/Admin.vue'
+import AddTicket from '../views/admin/AddTicket.vue'
+
+// Dropdown
+import TryDropdown from '../views/admin/TryDropdown.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -82,7 +90,7 @@ const routes = [
     children: [
       {
         path: 'search',
-        name: 'Landing',
+        name: 'Search',
         component: Landing,
         meta: {
           requiresAuth: true
@@ -129,6 +137,40 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/admin',
+    name: 'MainAdmin',
+    component: MainAdmin,
+    meta: {
+      requiresAdmin: true
+    },
+    children: [
+      {
+        path: 'ticket',
+        name: 'Admin',
+        component: Admin,
+        meta: {
+          requiresAdmin: true
+        }
+      },
+      {
+        path: 'addticket',
+        name: 'AddTicket',
+        component: AddTicket,
+        meta: {
+          requiresAdmin: true
+        }
+      },
+      {
+        path: 'drop',
+        name: 'TryDropdown',
+        component: TryDropdown,
+        meta: {
+          requiresAdmin: true
+        }
+      }
+    ]
   }
 ]
 
@@ -139,7 +181,22 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    const admin = `${process.env.VUE_APP_ROLE_ADMIN}`
+    const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
+    if (admin !== id) {
+      next({
+        path: '/main/search'
+      })
+    } else if (!token) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.getItem('token')) {
       next({
         path: '/auth/login'
