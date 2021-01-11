@@ -44,7 +44,7 @@
             <div @click="goProfile" class="container-profile">
               <div class="outline-profile d-flex justify-content-center align-items-center">
                 <div class="wrap-profile">
-                  <img :src="this.photo" alt="profile">
+                  <img :src="this.$store.state.myProfile.photo" alt="profile">
                 </div>
               </div>
             </div>
@@ -64,8 +64,7 @@ export default {
   name: 'Navbar',
   data () {
     return {
-      currentUrl: '',
-      photo: 'https://www.flaticon.com/svg/static/icons/svg/3135/3135715.svg'
+      currentUrl: ''
     }
   },
   methods: {

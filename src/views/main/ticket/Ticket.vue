@@ -6,16 +6,16 @@
         <div class="det-flight">
           <span><p>From</p><p>To</p></span>
           <span>
-            <h2>Medan (IDN)</h2>
+            <h2>{{ tiketDetail.city_departure.toUpperCase() }} ({{tiketDetail.country_departure}})</h2>
             <img src="../../../../public/img/icons/ticket_d/chnge.png" alt="">
-            <h2>Tokyo (JPN)</h2>
+            <h2>{{ tiketDetail.city_arrived.toUpperCase() }} ({{tiketDetail.country_arrived}})</h2>
           </span>
           <span>
             <p>Monday, 20 July 20</p>
             <p>&middot;</p>
-            <p>6 Passenger</p>
+            <p>{{ tiketDetail.adult_person + tiketDetail.child_person }} Passenger</p>
             <p>&middot;</p>
-            <p>Economy</p>
+            <p>{{ tiketDetail.class }}</p>
           </span>
         </div>
       </div>
@@ -36,11 +36,11 @@
           <div class="list-filter" :class="{ 'collapse': !collapse }">
             <span>
               <p>Direct</p>
-               <input type="radio" name="Transit" value="direct" v-model="transit" @click="uncheck('Transit','direct')">
+               <input type="radio" name="Transit" value="direct" v-model="query.transit" @click="uncheck('Transit','direct')">
             </span>
             <span>
               <p>Transit</p>
-               <input type="radio" name="Transit" value="transit" v-model="transit" @click="uncheck('Transit','transit')">
+               <input type="radio" name="Transit" value="transit" v-model="query.transit" @click="uncheck('Transit','transit')">
             </span>
           </div>
         </div>
@@ -53,19 +53,19 @@
           <div class="list-filter" :class="{ 'collapse': !collapseTwo }">
              <span>
               <p>00:00 - 06:00</p>
-               <input type="radio" name="time_departure" value="00:00-06:00" v-model="time_departure" @click="uncheck('time_departure','00:00-06:00')">
+               <input type="radio" name="time_departure" value="00:00-06:00" v-model="query.time_departure" @click="uncheck('time_departure','00:00-06:00')">
             </span>
             <span>
               <p>06:00 - 12:00</p>
-               <input type="radio" name="time_departure" value="06:00-12:00" v-model="time_departure" @click="uncheck('time_departure','06:00-12:00')">
+               <input type="radio" name="time_departure" value="06:00-12:00" v-model="query.time_departure" @click="uncheck('time_departure','06:00-12:00')">
             </span>
              <span>
               <p>12:00 - 18:00</p>
-               <input type="radio" name="time_departure" value="12:00-18:00" v-model="time_departure" @click="uncheck('time_departure','12:00-18:00')">
+               <input type="radio" name="time_departure" value="12:00-18:00" v-model="query.time_departure" @click="uncheck('time_departure','12:00-18:00')">
             </span>
             <span>
               <p>18:00 - 24:00</p>
-               <input type="radio" name="time_departure" value="18:00-24:00" v-model="time_departure" @click="uncheck('time_departure','18:00-24:00')">
+               <input type="radio" name="time_departure" value="18:00-24:00" v-model="query.time_departure" @click="uncheck('time_departure','18:00-24:00')">
             </span>
           </div>
         </div>
@@ -78,19 +78,19 @@
           <div class="list-filter" :class="{ 'collapse': !collapseThree }">
              <span>
               <p>00:00 - 06:00</p>
-               <input type="radio" name="time_arrived" value="00:00-06:00" v-model="time_arrived" @click="uncheck('time_arrived','00:00-06:00')">
+               <input type="radio" name="time_arrived" value="00:00-06:00" v-model="query.time_arrived" @click="uncheck('time_arrived','00:00-06:00')">
             </span>
             <span>
               <p>06:00 - 12:00</p>
-               <input type="radio" name="time_arrived" value="06:00-12:00" v-model="time_arrived" @click="uncheck('time_arrived','06:00-12:00')">
+               <input type="radio" name="time_arrived" value="06:00-12:00" v-model="query.time_arrived" @click="uncheck('time_arrived','06:00-12:00')">
             </span>
              <span>
               <p>12:00 - 18:00</p>
-               <input type="radio" name="time_arrived" value="12:00-18:00" v-model="time_arrived" @click="uncheck('time_arrived','12:00-18:00')">
+               <input type="radio" name="time_arrived" value="12:00-18:00" v-model="query.time_arrived" @click="uncheck('time_arrived','12:00-18:00')">
             </span>
             <span>
               <p>18:00 - 24:00</p>
-               <input type="radio" name="time_arrived" value="18:00-24:00" v-model="time_arrived" @click="uncheck('time_arrived','18:00-24:00')">
+               <input type="radio" name="time_arrived" value="18:00-24:00" v-model="query.time_arrived" @click="uncheck('time_arrived','18:00-24:00')">
             </span>
           </div>
         </div>
@@ -103,22 +103,22 @@
           <div class="list-filter" :class="{ 'collapse': !collapseFour }">
              <span>
               <p>Air Asia</p>
-               <input type="radio" name="name_maskapai" value="air_asia" v-model="name_maskapai" @click="uncheck('name_maskapai','air_asia')">
+               <input type="radio" name="name_maskapai" value="air_asia" v-model="query.name_maskapai" @click="uncheck('name_maskapai','air_asia')">
             </span>
             <span>
               <p>Garuda Indonesia</p>
-               <input type="radio" name="name_maskapai" value="garuda" v-model="name_maskapai" @click="uncheck('name_maskapai','garuda')">
+               <input type="radio" name="name_maskapai" value="garuda" v-model="query.name_maskapai" @click="uncheck('name_maskapai','garuda')">
             </span>
              <span>
               <p>Lion Air</p>
-               <input type="radio" name="name_maskapai" value="lion_air" v-model="name_maskapai" @click="uncheck('name_maskapai','lion_air')">
+               <input type="radio" name="name_maskapai" value="lion_air" v-model="query.name_maskapai" @click="uncheck('name_maskapai','lion_air')">
             </span>
           </div>
         </div>
 
       </div>
       <div class="list-ticket">
-        <div class="box-list-ticket" v-for="tkt in tickets" :key="tkt.id">
+        <div class="box-list-ticket" v-for="tkt in dataTickets.result" :key="tkt.id">
           <div class="ticket-title">
             <img :src="tkt.images" alt="logo">
             <p>{{ tkt.name_maskapai.toUpperCase().replace('_', ' ')  }}</p>
@@ -153,7 +153,7 @@
                   <p>/pax</p>
                 </div>
               </div>
-              <button>SELECT</button>
+              <button @click="toPage(tkt)">SELECT</button>
           </div>
           <span><p>View Details ></p></span>
         </div>
@@ -163,12 +163,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Ticket',
   computed: {
-    ...mapState(['tickets'])
+    ...mapState(['dataTickets']),
+    tiketDetail () {
+      return this.dataTickets.result[0]
+    }
   },
   data () {
     return {
@@ -177,13 +180,30 @@ export default {
       collapseTwo: false,
       collapseThree: false,
       collapseFour: false,
-      transit: '',
-      time_departure: '',
-      time_arrived: '',
-      name_maskapai: ''
+      query: {
+        transit: '',
+        time_departure: '',
+        time_arrived: '',
+        name_maskapai: ''
+      },
+      search: {
+        class: '',
+        child_person: 0,
+        adult_person: 0,
+        date_departure: '',
+        ticket_type: 'one_way',
+        city_departure: 'City',
+        city_arrived: 'City',
+        country_departure: 'Country',
+        country_arrived: 'Country'
+      }
     }
   },
   methods: {
+    ...mapActions(['getDataSearch']),
+    toPage (tkt) {
+      this.$router.push(`/main/ticket/${tkt.id}`)
+    },
     resetCheck () {
       const data = this.filters
       data.map((e) => {
@@ -217,6 +237,7 @@ export default {
         }
         this.$store.commit('SET_FILTER', payload)
       }, 50)
+      this.getDataSearch({ search: this.tiketDetail, query: this.query })
     }
   }
 }

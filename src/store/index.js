@@ -52,9 +52,13 @@ export default new Vuex.Store({
       }
     ],
     search: {},
-    dataUser: []
+    dataUser: [],
+    dataTickets: []
   },
   mutations: {
+    DATA_TICKETS (state, payload) {
+      state.dataTickets = payload
+    },
     DATA_USER (state, payload) {
       state.dataUser = payload
     },
@@ -91,6 +95,19 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    getDataSearch (context, { search, query }) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_BASE_URL}/ticket/ticketing?city_departure=${search.city_departure}&country_departure=${search.country_departure}&city_arrived=${search.city_arrived}&country_arrived=${search.country_arrived}&ticket_type=${search.ticket_type}&date_departure=${search.date_departure}&child_person=${search.child_person}&adult_person=${search.adult_person}&class=${search.class}&transit=${query.transit}&time_departure=${query.time_departure}&time_arrived=${query.time_arrived}&name_maskapai=${query.name_maskapai}`)
+          .then((result) => {
+            resolve(result)
+            context.commit('DATA_TICKETS', result.data)
+          })
+          .catch((error) => {
+            console.log(error)
+            reject(error)
+          })
+      })
+    },
     getMyProfile (context) {
       return new Promise((resolve, reject) => {
         axios.get(`${process.env.VUE_APP_BASE_URL}/users/my-profile`)

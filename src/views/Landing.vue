@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- Big Title -->
     <div class="d-flex justify-content-between justify-content-center">
       <div class="text">
         <h1>Find Your Flight</h1>
@@ -12,87 +13,143 @@
     <div class="image">
       <img src="../assets/img1.png" alt="image">
     </div>
-    <div class="section p-2">
-      <div class="title">
-        <h6>Hey,</h6>
-        <h1>Where you want to go?</h1>
-      </div>
-      <div class="section-card d-flex justify-content-between pl-4 pr-5">
-        <a>Recently Searched</a>
-        <img src="../assets/btnback.png" alt="btnback">
-      </div>
-      <div class="section-text ml-4 mt-3 d-flex justify-content-between pl-3 pr-3">
-        <div class="text1">
-          <p>From</p>
-          <h6>Medan</h6>
-          <i>Indonesia</i>
-        </div>
-        <img src="../assets/row.png" alt="row" class="ml-5 mr-5 mt-4">
-        <div class="text1">
-          <p>To</p>
-          <h6>Tokyo</h6>
-          <i>Japan</i>
-        </div>
-      </div>
-      <div class="button row mt-4 ml-3">
-        <div class="button-card mr-4">
-          <span></span>
-          <button type="button" class="btn btn-primary">
-            <span class="ico2 mr-2"></span>
-            One way
-          </button>
-        </div>
-        <div class="button-card">
-          <button type="button" class="btn btn-light">
-            <span class="ico mr-2"></span>
-            Round trip
-          </button>
-        </div>
-      </div>
-      <div class="form mt-2 p-3">
-        <div class="form-group">
-          <h6>Departure</h6>
-          <select class="form-control mt-2" id="exampleFormControlSelect1"></select>
+
+    <!-- Functional -->
+    <div class="card-box-new">
+      <div class="title-card-box-new mb-4">Hey, Where you want to go?</div>
+      <!-- Select Departure and Arrived -->
+      <div class="little-card-box-new">
+        <div class="from-to mb-2 w-100 d-flex justify-content-between">
+          <div>From</div>
+          <div>To</div>
         </div>
 
-         <div class="form-group">
-          <h6>How many person?</h6>
-          <div class="row form-select mt-2 ml-1">
-            <select class="form-control mr-3" id="exampleFormControlSelect1"></select>
-            <select class="form-control" id="exampleFormControlSelect1"></select>
+        <!-- Select City -->
+        <div class="new-city d-flex align-items-center justify-content-between">
+          <!-- Select City Departure -->
+          <div class="selected-dep position-relative">
+            <div @click="openCityDep">{{search.city_departure}}</div>
+            <div v-if="openCityDe === 1" class="select-city">
+              <div class="city-dep" v-for="(data, index) in this.search.allcity" :key="index">
+                <div @click="handleCityDep(data.city)" v-if="data.country === search.country_departure" >{{data.city}}</div>
+              </div>
+            </div>
           </div>
+          <!-- End Select City Departure -->
+          <!-- Image -->
+          <img src="../assets/main/arrow.svg" alt="arrow">
+          <!-- Select City Arrived -->
+          <div class="selected-arr position-relative">
+            <div @click="openCityArr">{{search.city_arrived}}</div>
+            <div v-if="openCityAr === 1" class="select-city">
+              <div class="city-dep" v-for="(data, index) in this.search.allcity" :key="index">
+                <div @click="handleCityArr(data.city)" v-if="data.country === search.country_arrived" >{{data.city}}</div>
+              </div>
+            </div>
+          </div>
+          <!-- End Select City Arrived -->
+        </div>
+        <!-- End Select City -->
+        <br>
+        <!-- Select Country -->
+        <div class="new-city d-flex align-items-center justify-content-between">
+          <!-- Select Country Departure -->
+          <div class="selected-dep position-relative">
+            <div @click="openCountryDep">{{search.country_departure}}</div>
+            <div v-if="openCountryDe === 1" class="select-city">
+              <div class="city-dep" v-for="(data, index) in this.search.allcity" :key="index">
+                <div @click="handleCountryDep(data.country)">{{data.country}}</div>
+              </div>
+            </div>
+          </div>
+          <!-- End Select Country Departure -->
+          <!-- Image -->
+          <img src="../assets/main/arrow.svg" alt="arrow">
+          <!-- Select Country Arrived -->
+          <div class="selected-arr position-relative">
+            <div @click="openCountryArr">{{search.country_arrived}}</div>
+            <div v-if="openCountryAr === 1" class="select-city">
+              <div class="city-dep" v-for="(data, index) in this.search.allcity" :key="index">
+                <div @click="handleCountryArr(data.country)">{{data.country}}</div>
+              </div>
+            </div>
+          </div>
+          <!-- End Select Country Arrived -->
+        </div>
+        <!-- End Select Country -->
+
+      </div>
+      <!-- End Select Departure and Arrived -->
+
+      <br>
+
+      <!-- Select Ticket Type -->
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <label for="oneway" class=" d-flex justify-content-center align-items-center hover" :class="search.ticket_type == 'one_way' ? 'act-ticket':'inact-ticket' ">One Way</label>
+        <input v-model="search.ticket_type" id="oneway" class="d-none" type="radio" value="one_way">
+        <label for="round" class=" d-flex justify-content-center align-items-center hover" :class="search.ticket_type == 'round_trip' ? 'act-ticket':'inact-ticket' ">Round Trip</label>
+        <input v-model="search.ticket_type" id="round" class="d-none" type="radio" value="round_trip">
+      </div>
+      <!-- End Select Ticket Type -->
+
+      <br>
+
+      <!-- Departure -->
+      <div class=" w-100 sub-title-new">Departure</div>
+      <input v-model="search.date_departure" type="date" class="input-date w-100">
+      <!-- End Departure -->
+
+      <!-- Person -->
+      <div class=" w-100 sub-title-new">How many person?</div>
+      <div class=" w-100 d-flex">
+        <div class=" w-50">
+          <label for="child" class="sub-title-new">Child</label>
+          <input v-model="search.child_person" class="input-person" id="child" type="number">
+        </div>
+        <div class=" w-50">
+          <label for="adult" class="sub-title-new">Adult</label>
+          <input v-model="search.adult_person" class="input-person" id="adult" type="number">
         </div>
       </div>
-      <div class="form-group">
-        <h6 class="ml-3">Which class do you want?</h6>
-        <div class="row ml-4 mt-2">
-          <div class="form-check mr-2">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-            <label class="form-check-label" for="exampleRadios1">
+      <!-- End Person -->
+
+      <!-- Class -->
+      <div class=" w-100 sub-title-new">Which class do you want?</div>
+      <div class=" w-100 d-flex">
+        <div class="col d-flex align-items-center del-padd">
+          <label class="del-marg d-flex align-items-center label-class" for="economy">
+            <div :class="search.class == 'economy' ? 'act-class':'inact-class' "></div>
+            <div>
               Economy
-            </label>
-          </div>
-          <div class="form-check mr-2">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-            <label class="form-check-label" for="exampleRadios2">
+            </div>
+          </label>
+          <input class="d-none" id="economy" value="economy" type="radio" v-model="search.class">
+        </div>
+        <div class="col d-flex align-items-center del-padd">
+          <label class="del-marg d-flex align-items-center label-class" for="business">
+            <div :class="search.class == 'business' ? 'act-class':'inact-class' "></div>
+            <div>
               Business
-            </label>
-          </div>
-          <div class="form-check mr-2">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-            <label class="form-check-label" for="exampleRadios2">
+            </div>
+          </label>
+          <input class="d-none" id="business" value="business" type="radio" v-model="search.class">
+        </div>
+        <div class="col d-flex align-items-center del-padd">
+          <label class="del-marg d-flex align-items-center label-class" for="first_class">
+            <div :class="search.class == 'first_class' ? 'act-class':'inact-class' "></div>
+            <div>
               First Class
-            </label>
-          </div>
+            </div>
+          </label>
+          <input class="d-none" id="first_class" value="first_class" type="radio" v-model="search.class">
         </div>
       </div>
-      <div class="button-search mr-4 ml-3">
-          <button type="button" class="btn btn-primary">
-            SEARCH FLIGHT
-            <span class="ml-5"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
-          </button>
-        </div>
+      <!-- End Class -->
+      <br>
+      <button @click="searchFlight" class="hover search-flight w-100 d-flex justify-content-center align-items-center">SEARCH FLIGHT</button>
+
     </div>
+    <!-- End Functional -->
 
   <div class="text-card">
     <h6>TRENDING</h6>
@@ -213,13 +270,350 @@
 </template>
 
 <script>
+// import axios from 'axios'
 
 export default {
-  name: 'Landing'
+  name: 'Landing',
+  data () {
+    return {
+      query: {
+        transit: '',
+        time_departure: '',
+        time_arrived: '',
+        name_maskapai: ''
+      },
+      search: {
+        class: 'economy',
+        child_person: 0,
+        adult_person: 0,
+        date_departure: '',
+        ticket_type: 'one_way',
+        city_departure: 'City',
+        city_arrived: 'City',
+        country_departure: 'Country',
+        country_arrived: 'Country',
+        allcity: [
+          {
+            id: 1,
+            city: 'jakarta',
+            country: 'IDN'
+          },
+          {
+            id: 2,
+            city: 'bogor',
+            country: 'IDN'
+          },
+          {
+            id: 3,
+            city: 'bandung',
+            country: 'IDN'
+          },
+          {
+            id: 4,
+            city: 'tokyo',
+            country: 'JPN'
+          },
+          {
+            id: 4,
+            city: 'nagasaki',
+            country: 'JPN'
+          }
+        ]
+      },
+      openCityDe: 0,
+      openCityAr: 0,
+      openCountryDe: 0,
+      openCountryAr: 0
+    }
+  },
+  methods: {
+    searchFlight () {
+      this.$store.dispatch('getDataSearch', { search: this.search, query: this.query }).then((result) => {
+        console.log(result.data)
+        this.$router.push('/main/ticket')
+      })
+        .catch((error) => console.log(error))
+    },
+    openCityDep () {
+      if (this.openCityDe === 0) {
+        this.openCityDe = 1
+        this.openCityAr = 0
+      } else {
+        this.openCityDe = 0
+      }
+    },
+    openCityArr () {
+      if (this.openCityAr === 0) {
+        this.openCityAr = 1
+        this.openCityDe = 0
+      } else {
+        this.openCityAr = 0
+      }
+    },
+    handleCityDep (data) {
+      this.search.city_departure = data
+      this.openCityDe = 0
+    },
+    handleCityArr (data) {
+      this.search.city_arrived = data
+      this.openCityAr = 0
+    },
+    openCountryDep () {
+      if (this.openCountryDe === 0) {
+        this.openCountryDe = 1
+        this.openCountryAr = 0
+      } else {
+        this.openCountryDe = 0
+      }
+    },
+    openCountryArr () {
+      if (this.openCountryAr === 0) {
+        this.openCountryAr = 1
+        this.openCountryDe = 0
+      } else {
+        this.openCountryAr = 0
+      }
+    },
+    handleCountryDep (data) {
+      this.search.country_departure = data
+      this.openCountryDe = 0
+    },
+    handleCountryArr (data) {
+      this.search.country_arrived = data
+      this.openCountryAr = 0
+    }
+  }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+.card-box-new {
+  position: absolute;
+  width: 400px;
+  /* height: 750px; */
+  right: 100px;
+  top: 150px;
+  background: #FFFFFF;
+  box-shadow: 0px 8px 27px rgba(14, 63, 108, 0.19);
+  border-radius: 12px;
+  padding: 30px 40px;
+  .title-card-box-new {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 185%;
+    color: #000000;
+  }
+  .little-card-box-new {
+    width: 100%;
+    padding: 15px 20px;
+    box-shadow: 0px 8px 27px rgba(14, 63, 108, 0.19);
+    border-radius: 12px;
+    .from-to {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #979797;
+    }
+    .new-city {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 30px;
+      color: #000000;
+      .selected-dep {
+        cursor: pointer;
+        .select-city {
+          overflow: auto;
+          padding: 10px 0;
+          position: absolute;
+          top: 30px;
+          left: -180px;
+          width: 160px;
+          max-height: 160px;
+          box-shadow: 0px 8px 27px rgba(14, 63, 108, 0.19);
+          border-radius: 12px;
+          background-color: #FFFFFF;
+          .city-dep {
+            line-height: 1.5em;
+            padding: 0 15px;
+            z-index: 1000;
+          }
+          .city-dep:hover {
+            background-color: #dadada;
+          }
+        }
+      }
+      .selected-arr {
+        cursor: pointer;
+        .select-city {
+          overflow: auto;
+          padding: 10px 0;
+          position: absolute;
+          top: 30px;
+          right: -180px;
+          width: 160px;
+          max-height: 160px;
+          box-shadow: 0px 8px 27px rgba(14, 63, 108, 0.19);
+          border-radius: 12px;
+          background-color: #FFFFFF;
+          .city-dep {
+            line-height: 1.5em;
+            padding: 0 15px;
+            z-index: 1000;
+          }
+          .city-dep:hover {
+            background-color: #dadada;
+          }
+        }
+      }
+    }
+  }
+}
+
+.select-city::-webkit-scrollbar {
+  width: 5px;
+}
+
+.select-city::-webkit-scrollbar-thumb {
+  background-color: rgba(35, 149, 255, 0.5);
+}
+
+.act-ticket {
+  width: 140px;
+  height: 44px;
+  background: #2395FF;
+  border-radius: 6px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+.inact-ticket {
+  width: 140px;
+  height: 44px;
+  background: #F0F0F0;
+  border-radius: 6px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #595959;
+  cursor: pointer;
+}
+
+.hover:hover {
+  opacity: .8
+}
+
+.sub-title-new {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #6B6B6B;
+  margin: 0 0 12px 0;
+}
+
+.input-date {
+  border: 1px solid #DDDDDD;
+  box-sizing: border-box;
+  border-radius: 6px;
+  height: 55px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #000000;
+  padding: 0 20px;
+  margin: 0 0 20px 0;
+}
+
+.input-person {
+  width: 150px;
+  height: 55px;
+  border: 1px solid #DDDDDD;
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 0 20px;
+  margin: 0 0 20px 0;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #000000;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.act-class {
+  width: 20px;
+  height: 20px;
+  background-color: #2395FF;
+  border-radius: 50%;
+  margin: 0 5px 0 0;
+}
+
+.inact-class {
+  width: 20px;
+  height: 20px;
+  background-color: #dadada;
+  border-radius: 50%;
+  margin: 0 5px 0 0;
+}
+
+.del-padd {
+  padding: 0;
+}
+
+.del-marg {
+  margin: 0;
+}
+
+.label-class {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #000000;
+}
+
+.search-flight {
+  height: 55px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 27px;
+  color: #FFFFFF;
+  background: #2395FF;
+  box-shadow: 0px 8px 10px rgba(35, 149, 255, 0.3);
+  border-radius: 10px;
+}
+
+button:focus {
+  outline: 0
+}
+
+// End
+
 .container {
   background: white;
   position: relative;
