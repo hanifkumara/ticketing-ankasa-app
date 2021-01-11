@@ -62,7 +62,6 @@
             <p style="color: #2395FF; font-size: 14px">MY BOOKING</p>
             <div class="d-flex justify-content-between align-items-center">
               <h3>My Booking</h3>
-              {{lastPage}}
               <p style="color: #2395FF; font-size: 14px; font-weight: 700">Order History</p>
             </div>
           </div>
@@ -125,7 +124,7 @@ export default {
       this.deleteMyBooking(idBooking)
         .then(() => {
           Swal.fire('Delete Success', '', 'success')
-          console.log(this.$refs.deleteBooking[0].parentNode.parentNode.remove())
+          this.$refs.deleteBooking[0].parentNode.parentNode.remove()
         })
     },
     handlePhoto (e) {
@@ -177,14 +176,9 @@ export default {
     this.getMyProfile()
     this.handleMyBooking()
     this.getMyBooking(this.page)
-      .then(() => {
-        const result = this.setMyBooking[0].ticket.date_departure
-        console.log(new Date('MM/DD/YYYY'))
-        console.log(result)
-      })
   },
   computed: {
-    ...mapGetters(['setMyProfile', 'setMyBooking'])
+    ...mapGetters(['setMyProfile'])
   }
 }
 </script>
