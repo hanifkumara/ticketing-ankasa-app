@@ -28,71 +28,22 @@
           <h2 @click="resetCheck">Reset</h2>
         </span>
 
-        <div class="box-filter" v-for="(filter) in filters" :key="filter.name">
+        <div class="box-filter" v-for="(filter, indexFilter) in filters" :key="filter.name">
           <span @click="filter.collapse = !filter.collapse">
             <h5>{{filter.name}}</h5>
             <p>{{ filter.collapse ? '-' : '+' }}</p>
           </span>
           <div class="list-filter" :class="{ 'collapse': !filter.collapse }">
-            <span v-for="li in filter.li" :key="li.name">
+            <span v-for="(li, IndexliFilter) in filter.li" :key="li.name">
               <p>{{ li.name }}</p>
-              <input type="checkbox" name="chek" id="direct" v-bind="checkbox" :checked="li.check">
+              <input type="checkbox" name="chek" id="direct"
+              v-bind="checkbox" :checked="li.check" @change="filterCheckbox(filter, indexFilter, IndexliFilter)">
             </span>
           </div>
         </div>
 
       </div>
       <div class="list-ticket">
-        <div class="head-list-ticket">
-          <span>
-            <h1>Select Ticket</h1>
-            <p>( 6 flight found )</p>
-          </span>
-          <span>
-            <h3>Sort by</h3>
-            <img src="../../../../public/img/icons/ticket_d/sortAscDsc.png" alt="sort">
-          </span>
-        </div>
-        <div class="box-list-ticket">
-          <div class="ticket-title">
-            <img src="../../../../public/img/icons/ticket_d/garuda-indonesia-logo-BD82882F07-seeklogo 1.png" alt="logo">
-            <p>Garuda Indonesia</p>
-          </div>
-          <div class="ticket-detail">
-              <div class="info-detail">
-                <div class="flight-route">
-                  <span>
-                    <h1>IDN</h1>
-                    <p>12:23</p>
-                  </span>
-                <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
-                  <span>
-                    <h1>JPN</h1>
-                    <p>15:21</p>
-                  </span>
-                </div>
-
-                <div class="flight-time">
-                  <p>3 hours 11 minutes</p>
-                  <p>( 1 Transit )</p>
-                </div>
-
-                <div class="flight-facilities">
-                  <img src="../../../../public/img/icons/ticket_d/bag.png" alt="bag">
-                  <img src="../../../../public/img/icons/ticket_d/brgr.png" alt="burger">
-                  <img src="../../../../public/img/icons/ticket_d/wifi.png" alt="Wifi">
-                </div>
-
-                <div class="flight-price">
-                  <h5>IDR 250.000</h5>
-                  <p>/pax</p>
-                </div>
-              </div>
-              <button>SELECT</button>
-          </div>
-          <span><p>View Details ></p></span>
-        </div>
-
         <div class="box-list-ticket">
           <div class="ticket-title">
             <img src="../../../../public/img/icons/ticket_d/garuda-indonesia-logo-BD82882F07-seeklogo 1.png" alt="logo">
@@ -146,10 +97,12 @@ export default {
       filters: [
         {
           name: 'Transit',
+          nameData: 'transit',
           li: [
             {
               name: 'Direct',
-              check: false
+              check: false,
+              query: '&transit=direct'
             },
             {
               name: 'Transit',
@@ -159,40 +112,23 @@ export default {
           collapse: false
         },
         {
-          name: 'Facilities',
-          li: [
-            {
-              name: 'Luggage',
-              check: false
-            },
-            {
-              name: 'in-FLight Meal',
-              check: false
-            },
-            {
-              name: 'Wifi',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
           name: 'Departure Time',
+          nameData: 'time_departure',
           li: [
             {
-              name: '00:00 - 06:00',
+              name: '00:00-06:00',
               check: false
             },
             {
-              name: '07:30 - 10:00',
+              name: '07:30-10:00',
               check: false
             },
             {
-              name: '20:00 - 00:30',
+              name: '20:00-00:30',
               check: false
             },
             {
-              name: '10:00 - 12:30',
+              name: '10:00-12:30',
               check: false
             }
           ],
@@ -200,21 +136,22 @@ export default {
         },
         {
           name: 'Time Arrived',
+          nameData: 'time_arrived',
           li: [
             {
-              name: '00:00 - 06:00',
+              name: '00:00-06:00',
               check: false
             },
             {
-              name: '07:30 - 10:00',
+              name: '07:30-10:00',
               check: false
             },
             {
-              name: '20:00 - 00:30',
+              name: '20:00-00:30',
               check: false
             },
             {
-              name: '10:00 - 12:30',
+              name: '10:00-12:30',
               check: false
             }
           ],
@@ -222,6 +159,7 @@ export default {
         },
         {
           name: 'Airlines',
+          nameData: 'name_maskapai',
           li: [
             {
               name: 'Garuda Indonesia',
@@ -238,7 +176,8 @@ export default {
           ],
           collapse: false
         }
-      ]
+      ],
+      query: []
     }
   },
   methods: {
@@ -247,6 +186,19 @@ export default {
       data.map((e) => {
         e.li.check = false
       })
+    },
+    filterCheckbox (filter, indexFilter, IndexliFilter) {
+      this.filters[indexFilter].li[IndexliFilter].checkbox = !this.filters[indexFilter].li[IndexliFilter].checkbox
+      if (this.filters[indexFilter].li[IndexliFilter].checkbox) {
+        this.query.push({ query: `&${this.filters[indexFilter].nameData}=${this.filters[indexFilter].li[IndexliFilter].name}` })
+        this.query.map((e) => {
+          console.log(e.query)
+        })
+        // console.log(t)
+      } else {
+        console.log(this.filters[indexFilter].li[IndexliFilter].name + ' is = ' + this.filters[indexFilter].li[IndexliFilter].checkbox)
+      }
+      console.log(this.query)
     }
   }
 }
@@ -334,7 +286,7 @@ export default {
 .main-content {
   width: 95%;
   margin-top: 13px;
-  margin-bottom: 15px;
+  margin-bottom: 13px;
   display: flex;
   /* background-color: rgb(158, 107, 107); */
 }
@@ -450,7 +402,6 @@ export default {
 .list-ticket {
   flex: 1;
   display: flex;
-  height: 500px;
   /* background-color: #859baf; */
   flex-direction: column;
   padding: 10px;
