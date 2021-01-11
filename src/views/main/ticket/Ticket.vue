@@ -28,38 +28,112 @@
           <h2 @click="resetCheck">Reset</h2>
         </span>
 
-        <div class="box-filter" v-for="(filter, indexFilter) in filters" :key="filter.name">
-          <span @click="filter.collapse = !filter.collapse">
-            <h5>{{filter.name}}</h5>
-            <p>{{ filter.collapse ? '-' : '+' }}</p>
+        <div class="box-filter">
+          <span @click="collapse = !collapse">
+            <h5>Transit</h5>
+            <p>{{ collapse ? '-' : '+' }}</p>
           </span>
-          <div class="list-filter" :class="{ 'collapse': !filter.collapse }">
-            <span v-for="(li, IndexliFilter) in filter.li" :key="li.name">
-              <p>{{ li.name }}</p>
-              <input type="checkbox" name="chek" id="direct"
-              v-bind="checkbox" :checked="li.check" @change="filterCheckbox(filter, indexFilter, IndexliFilter)">
+          <div class="list-filter" :class="{ 'collapse': !collapse }">
+            <span>
+              <p>Direct</p>
+               <input type="radio" name="Transit" value="direct" v-model="transit" @click="uncheck('Transit','direct')">
+            </span>
+            <span>
+              <p>Transit</p>
+               <input type="radio" name="Transit" value="transit" v-model="transit" @click="uncheck('Transit','transit')">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseTwo = !collapseTwo">
+            <h5>Departure Time</h5>
+            <p>{{ collapseTwo ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseTwo }">
+             <span>
+              <p>00:00 - 06:00</p>
+               <input type="radio" name="time_departure" value="00:00-06:00" v-model="time_departure" @click="uncheck('time_departure','00:00-06:00')">
+            </span>
+            <span>
+              <p>06:00 - 12:00</p>
+               <input type="radio" name="time_departure" value="06:00-12:00" v-model="time_departure" @click="uncheck('time_departure','06:00-12:00')">
+            </span>
+             <span>
+              <p>12:00 - 18:00</p>
+               <input type="radio" name="time_departure" value="12:00-18:00" v-model="time_departure" @click="uncheck('time_departure','12:00-18:00')">
+            </span>
+            <span>
+              <p>18:00 - 24:00</p>
+               <input type="radio" name="time_departure" value="18:00-24:00" v-model="time_departure" @click="uncheck('time_departure','18:00-24:00')">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseThree = !collapseThree">
+            <h5>Time Arrived</h5>
+            <p>{{ collapseThree ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseThree }">
+             <span>
+              <p>00:00 - 06:00</p>
+               <input type="radio" name="time_arrived" value="00:00-06:00" v-model="time_arrived" @click="uncheck('time_arrived','00:00-06:00')">
+            </span>
+            <span>
+              <p>06:00 - 12:00</p>
+               <input type="radio" name="time_arrived" value="06:00-12:00" v-model="time_arrived" @click="uncheck('time_arrived','06:00-12:00')">
+            </span>
+             <span>
+              <p>12:00 - 18:00</p>
+               <input type="radio" name="time_arrived" value="12:00-18:00" v-model="time_arrived" @click="uncheck('time_arrived','12:00-18:00')">
+            </span>
+            <span>
+              <p>18:00 - 24:00</p>
+               <input type="radio" name="time_arrived" value="18:00-24:00" v-model="time_arrived" @click="uncheck('time_arrived','18:00-24:00')">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseFour = !collapseFour">
+            <h5>Airlines</h5>
+            <p>{{ collapseFour ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseFour }">
+             <span>
+              <p>Air Asia</p>
+               <input type="radio" name="name_maskapai" value="air_asia" v-model="name_maskapai" @click="uncheck('name_maskapai','air_asia')">
+            </span>
+            <span>
+              <p>Garuda Indonesia</p>
+               <input type="radio" name="name_maskapai" value="garuda" v-model="name_maskapai" @click="uncheck('name_maskapai','garuda')">
+            </span>
+             <span>
+              <p>Lion Air</p>
+               <input type="radio" name="name_maskapai" value="lion_air" v-model="name_maskapai" @click="uncheck('name_maskapai','lion_air')">
             </span>
           </div>
         </div>
 
       </div>
       <div class="list-ticket">
-        <div class="box-list-ticket">
+        <div class="box-list-ticket" v-for="tkt in tickets" :key="tkt.id">
           <div class="ticket-title">
-            <img src="../../../../public/img/icons/ticket_d/garuda-indonesia-logo-BD82882F07-seeklogo 1.png" alt="logo">
-            <p>Garuda Indonesia</p>
+            <img :src="tkt.images" alt="logo">
+            <p>{{ tkt.name_maskapai.toUpperCase().replace('_', ' ')  }}</p>
           </div>
           <div class="ticket-detail">
               <div class="info-detail">
                 <div class="flight-route">
                   <span>
-                    <h1>IDN</h1>
-                    <p>12:23</p>
+                    <h1>{{ tkt.country_departure }}</h1>
+                    <p>{{ tkt.time_departure.slice(0,5) }}</p>
                   </span>
                     <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
                   <span>
-                    <h1>JPN</h1>
-                    <p>15:21</p>
+                    <h1>{{ tkt.country_arrived }}</h1>
+                    <p>{{ tkt.time_arrived.slice(0,5) }}</p>
                   </span>
                 </div>
 
@@ -75,7 +149,7 @@
                 </div>
 
                 <div class="flight-price">
-                  <h5>IDR 250.000</h5>
+                  <h5>Rp. {{ tkt.price.toLocaleString('id-ID') }}</h5>
                   <p>/pax</p>
                 </div>
               </div>
@@ -89,95 +163,24 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'Ticket',
+  computed: {
+    ...mapState(['tickets'])
+  },
   data () {
     return {
       checkbox: '',
-      filters: [
-        {
-          name: 'Transit',
-          nameData: 'transit',
-          li: [
-            {
-              name: 'Direct',
-              check: false,
-              query: '&transit=direct'
-            },
-            {
-              name: 'Transit',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Departure Time',
-          nameData: 'time_departure',
-          li: [
-            {
-              name: '00:00-06:00',
-              check: false
-            },
-            {
-              name: '07:30-10:00',
-              check: false
-            },
-            {
-              name: '20:00-00:30',
-              check: false
-            },
-            {
-              name: '10:00-12:30',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Time Arrived',
-          nameData: 'time_arrived',
-          li: [
-            {
-              name: '00:00-06:00',
-              check: false
-            },
-            {
-              name: '07:30-10:00',
-              check: false
-            },
-            {
-              name: '20:00-00:30',
-              check: false
-            },
-            {
-              name: '10:00-12:30',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Airlines',
-          nameData: 'name_maskapai',
-          li: [
-            {
-              name: 'Garuda Indonesia',
-              check: false
-            },
-            {
-              name: 'Air Asia',
-              check: false
-            },
-            {
-              name: 'City Link',
-              check: false
-            }
-          ],
-          collapse: false
-        }
-      ],
-      query: []
+      collapse: false,
+      collapseTwo: false,
+      collapseThree: false,
+      collapseFour: false,
+      transit: '',
+      time_departure: '',
+      time_arrived: '',
+      name_maskapai: ''
     }
   },
   methods: {
@@ -187,29 +190,33 @@ export default {
         e.li.check = false
       })
     },
-    filterCheckbox (filter, indexFilter, IndexliFilter) {
-      this.filters[indexFilter].li[IndexliFilter].checkbox = !this.filters[indexFilter].li[IndexliFilter].checkbox
-      if (this.filters[indexFilter].li[IndexliFilter].checkbox) {
-        const newQuery = `&${this.filters[indexFilter].nameData}=${this.filters[indexFilter].li[IndexliFilter].name}`
-        if (this.query.length === 0) this.query.push({ query: newQuery })
-        this.query.map((e) => {
-          const queryData = e.query.split('&')[1].split('=')[0]
-          const queryNew = newQuery.split('&')[1].split('=')[0]
-          // if (queryData === queryNew) {
-          //   return ''
-          // } else {
-          //   this.query.push({ query: newQuery })
-          // }
-          console.log(queryData + ' - ' + queryNew)
-        })
-        // let queryParams = ''
-        // this.query.map((i) => {
-        //   queryParams += i.query
-        // })
-        // console.log(queryParams)
-      } else {
-        console.log(this.filters[indexFilter].li[IndexliFilter].name + ' is = ' + this.filters[indexFilter].li[IndexliFilter].checkbox)
+    uncheck (filter, name) {
+      if (filter === 'Transit') {
+        if (name === this.transit) {
+          this.transit = ''
+        }
+      } else if (filter === 'time_departure') {
+        if (name === this.time_departure) {
+          this.time_departure = ''
+        }
+      } else if (filter === 'time_arrived') {
+        if (name === this.time_arrived) {
+          this.time_arrived = ''
+        }
+      } else if (filter === 'name_maskapai') {
+        if (name === this.name_maskapai) {
+          this.name_maskapai = ''
+        }
       }
+      setTimeout(() => {
+        const payload = {
+          transit: this.transit,
+          time_departure: this.time_departure,
+          time_arrived: this.time_arrived,
+          name_maskapai: this.name_maskapai
+        }
+        this.$store.commit('SET_FILTER', payload)
+      }, 50)
     }
   }
 }
@@ -489,6 +496,7 @@ export default {
   width: 100px;
   height: 50px;
   margin-right: 25px;
+  object-fit: cover;
 }
 .ticket-title p {
   font-family: Poppins;

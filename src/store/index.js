@@ -51,26 +51,43 @@ export default new Vuex.Store({
         class: 'first_class'
       }
     ],
-    search: {
-      city_departure: 'bogor',
-      country_departure: 'IDN',
-      city_arrived: 'kuala_lumpur',
-      country_arrived: 'MLY',
-      ticket_type: 'one_way',
-      date_departure: '2021-01-11',
-      child_person: 2,
-      adult_person: 4,
-      class: 'economy',
-      transit: '',
-      time_departure: '',
-      time_arrived: '',
-      name_maskapai: '',
-      sort: ''
-    }
+    search: {},
+    dataUser: []
   },
   mutations: {
+    DATA_USER (state, payload) {
+      state.dataUser = payload
+    },
     SET_MY_PROFILE (state, payload) {
       state.myProfile = payload
+    },
+    SET_FILTER (state, payload) {
+      state.search.transit = payload.transit
+      state.search.time_departure = payload.time_departure
+      state.search.time_arrived = payload.time_arrived
+      state.search.name_maskapai = payload.name_maskapai
+    },
+    SET_CITIES (state, payload) {
+      state.search.city_departure = payload.city_departure
+      state.search.country_arrived = payload.country_arrived
+      state.search.ticket_type = payload.ticket_type
+      state.search.date_departure = payload.date_departure
+      state.search.child_person = payload.child_person
+      state.search.adult_person = payload.adult_person
+      state.search.class = payload.class
+      state.search.time_departure = payload.time_departure
+      state.search.time_arrived = payload.time_arrived
+      state.search.name_maskapai = payload.name_maskapai
+      state.search.transit = payload.transit
+    },
+    SET_MY_BOOKING (state, payload) {
+      state.myBooking = payload
+    },
+    SET_DETAIL_BOOKING (state, payload) {
+      state.detailMyBooking = payload
+    },
+    SET_MY_TICKET (state, payload) {
+      state.detailMyTicket = payload
     }
   },
   actions: {
@@ -80,6 +97,7 @@ export default new Vuex.Store({
           .then((result) => {
             console.log(result)
             context.commit('SET_MY_PROFILE', result.data.result)
+            context.commit('DATA_USER', result.data.result)
             resolve(result)
           }).catch((err) => {
             console.log(err)
