@@ -67,7 +67,7 @@
             </div>
           </div>
           <div class="container-card-booking">
-            <div class="card-booking" v-for="data in myBooking" :key="data.id">
+            <div class="card-booking" v-for="(data, index) in myBooking" :key="index">
               <p class="date-time">{{data.ticket.date_departure}} - {{data.ticket.time_departure}}</p>
               <div class="from-to d-flex">
                 <h4 class="from">{{data.ticket.country_departure}}</h4>
@@ -84,7 +84,7 @@
                   <div v-if="data.status === 'pending'" @click="toPayment(data.id)" class="waiting-payment">Waiting for payment</div>
                   <div v-else class="eticket-issues" @click="detailBooking(data.id)">Eticket Issues</div>
                 </div>
-                <div v-if="data.status === 'success'" @click="deleteMyBooking(data.id)" class="footer-card-right">
+                <div v-if="data.status === 'success'" @click="handleDelete(data.id)" class="footer-card-right">
                   <div class="badge badge-danger">Delete</div>
                 </div>
               </div>
@@ -115,8 +115,21 @@ export default {
     handleMyBooking () {
       this.getMyBooking(this.page)
         .then(res => {
-          this.lastPage = res.data.rows
+          const { rows } = res.data
+          const result = Math.ceil(rows / 4)
+          this.lastPage = result
           this.myBooking.push(...res.data.result)
+        })
+    },
+    handleDelete (idBooking) {
+      this.deleteMyBooking(idBooking)
+        .then(() => {
+          console.log('mantap')
+          setTimeout(() => {
+            this.handleMyBooking()
+          }, 1000)
+          console.log(this.page)
+          Swal.fire('Delete Success', '', 'success')
         })
     },
     handlePhoto (e) {
@@ -159,6 +172,7 @@ export default {
     },
     handleScrolledToBotom (isVisible) {
       if (!isVisible) { return }
+      if (this.page >= this.lastPage) { return }
       this.page++
       this.handleMyBooking()
     }

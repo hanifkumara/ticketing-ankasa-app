@@ -124,8 +124,6 @@ new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios.delete(`${process.env.VUE_APP_BASE_URL}/booking/delete/${idBooking}`)
           .then((result) => {
-            context.dispatch('getMyBooking')
-            Swal.fire('Delete Success', '', 'success')
             resolve(result)
           }).catch((err) => {
             console.log(err.response)

@@ -26,13 +26,6 @@ import MainAdmin from '../views/admin/MainAdmin.vue'
 import Admin from '../views/admin/Admin.vue'
 import AddTicket from '../views/admin/AddTicket.vue'
 
-<<<<<<< HEAD
-// Dropdown
-import TryDropdown from '../views/admin/TryDropdown.vue'
-import Dev from '../views/Dev.vue'
-
-=======
->>>>>>> 79502bc65d17bf05b1567ecb33ceb67061c6e41c
 Vue.use(VueRouter)
 
 const routes = [
@@ -179,11 +172,6 @@ const routes = [
         }
       }
     ]
-  },
-  {
-    path: '/dev',
-    name: 'Dev',
-    component: Dev
   }
 ]
 
