@@ -230,10 +230,10 @@ export default {
       }
       setTimeout(() => {
         const payload = {
-          transit: this.transit,
-          time_departure: this.time_departure,
-          time_arrived: this.time_arrived,
-          name_maskapai: this.name_maskapai
+          transit: this.query.transit,
+          time_departure: this.query.time_departure,
+          time_arrived: this.query.time_arrived,
+          name_maskapai: this.query.name_maskapai
         }
         this.$store.commit('SET_FILTER', payload)
       }, 50)
