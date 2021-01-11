@@ -94,7 +94,7 @@
           </span>
         </div>
         <div class="btn-detail">
-          <button>Proceed to payment</button>
+          <button @click="createBooking">Proceed to payment</button>
         </div>
       </div>
       <div class="flight-detail">
@@ -136,7 +136,19 @@
 
 <script>
 export default {
-  name: 'DetailTicket'
+  name: 'DetailTicket',
+  methods: {
+    createBooking () {
+      const data = {
+        ticket_id: this.$route.params.id,
+        status: 'pending'
+      }
+      this.$store.dispatch('createBooking', data).then((result) => {
+        console.log(result)
+      })
+        .catch((error) => console.log(error))
+    }
+  }
 }
 </script>
 
