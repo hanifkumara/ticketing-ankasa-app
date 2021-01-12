@@ -9,7 +9,12 @@
       <input :class="this.errEmail === 'err' ? 'form-input-err':'form-input' " @input="handleEmail" v-model="email" type="email" placeholder="Email" required>
       <div class="space-32 w-100"><h4 v-if="this.errEmail === 'err'" class="mt-2">Format email is incorrect</h4></div>
       <!-- Password -->
-      <input :class="this.errPass === 'err' ? 'form-input-err':'form-input' " @input="handlePass" v-model="password" type="password" placeholder="Password" minlength="5" required>
+      <div class="container-password">
+        <input :class="this.errPass === 'err' ? 'form-input-err':'form-input' " @input="handlePass" v-model="password" type="password" placeholder="Password" minlength="5" required id="show">
+        <div class="icon-eye" @click="showPassword">
+          <img src="@/assets/image/ic_sharp-remove-red-eye.png" alt="icon-eye">
+        </div>
+      </div>
       <div class="space-32 w-100"><h4 v-if="this.errPass === 'err'" class="mt-2">Password must be 8 character</h4></div>
       <div class="space-32 w-100"></div>
       <!-- Button Register -->
@@ -29,9 +34,11 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import showPass from '../../mixins/main/showPassword'
 
 export default {
   name: 'Login',
+  mixins: [showPass],
   data () {
     return {
       // Data
@@ -257,5 +264,12 @@ h5 {
   color: #4D4D4D;
   margin: 0 0 24px 0;
 }
-
+.container-password{
+  position: relative
+}
+.icon-eye{
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+}
 </style>
