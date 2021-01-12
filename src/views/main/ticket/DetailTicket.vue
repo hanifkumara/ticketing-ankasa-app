@@ -11,25 +11,25 @@
           <div class="group-input">
             <label for="name">Full Name</label>
             <div class="input-wrap">
-              <input type="text" value="Mickael Mitnick" disabled>
+              <input type="text" :value="userData.fullname" disabled>
             </div>
           </div>
           <div class="group-input">
             <label for="name">Email</label>
             <div class="input-wrap">
-              <input type="text" value="mickael.mitnick@gmail.com" disabled>
+              <input type="text" :value="userData.email" disabled>
             </div>
           </div>
           <div class="group-input">
             <label for="name">Phone Number</label>
             <div class="input-wrap">
-              <select name="phoneNumber" id="phone" disabled>
+              <select name="phoneNumber" id="phone" >
                 <option value="+62">+62</option>
                 <option value="+11">+11</option>
                 <option value="+53">+53</option>
                 <option value="+10">+10</option>
               </select>
-              <input type="text" value="85523509300" disabled>
+              <input type="text" value="" placeholder="...">
             </div>
           </div>
           <div class="warning-msg">
@@ -94,7 +94,7 @@
           </span>
         </div>
         <div class="btn-detail">
-          <button>Proceed to payment</button>
+          <button @click="createBooking">Proceed to payment</button>
         </div>
       </div>
       <div class="flight-detail">
@@ -135,8 +135,38 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
-  name: 'DetailTicket'
+  name: 'DetailTicket',
+  data () {
+    return {
+      user: ''
+    }
+  },
+  computed: {
+    ...mapState(['dataUser']),
+    userData () {
+      return this.user.data.result
+    }
+  },
+  methods: {
+    ...mapActions(['getMyProfile']),
+
+    createBooking () {
+      const data = {
+        ticket_id: this.$route.params.id,
+        status: 'pending'
+      }
+      this.$store.dispatch('createBooking', data).then((result) => {
+        console.log(result)
+      })
+        .catch((error) => console.log(error))
+    }
+  },
+  async mounted () {
+    this.user = await this.getMyProfile()
+  }
 }
 </script>
 
