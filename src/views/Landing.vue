@@ -270,12 +270,18 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'Landing',
   data () {
     return {
+      query: {
+        transit: '',
+        time_departure: '',
+        time_arrived: '',
+        name_maskapai: ''
+      },
       search: {
         class: 'economy',
         child_person: 0,
@@ -322,13 +328,11 @@ export default {
   },
   methods: {
     searchFlight () {
-      axios.get(`${process.env.VUE_APP_BASE_URL}/ticket/ticketing?city_departure=${this.search.city_departure}&country_departure=${this.search.country_departure}&city_arrived=${this.search.city_arrived}&country_arrived=${this.search.country_arrived}&ticket_type=${this.search.ticket_type}&date_departure=${this.search.date_departure}&child_person=${this.search.child_person}&adult_person=${this.search.adult_person}&class=${this.search.class}&transit=&time_departure=&time_arrived=&name_maskapai=`)
-        .then((res) => {
-          console.log(res.data.result)
-        })
-        .catch((err) => {
-          console.log(err.response.data)
-        })
+      this.$store.dispatch('getDataSearch', { search: this.search, query: this.query }).then((result) => {
+        console.log(result.data)
+        this.$router.push('/main/ticket')
+      })
+        .catch((error) => console.log(error))
     },
     openCityDep () {
       if (this.openCityDe === 0) {

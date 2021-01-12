@@ -54,7 +54,7 @@ display: block;
 }
 body {
 line-height: 1;
-background: #e0e0e0;
+background: #F5F6FA!important;
 }
 ol, ul {
 list-style: none;

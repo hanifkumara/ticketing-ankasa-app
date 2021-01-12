@@ -6,16 +6,16 @@
         <div class="det-flight">
           <span><p>From</p><p>To</p></span>
           <span>
-            <h2>Medan (IDN)</h2>
+            <h2>{{ tiketDetail.city_departure.toUpperCase() }} ({{tiketDetail.country_departure}})</h2>
             <img src="../../../../public/img/icons/ticket_d/chnge.png" alt="">
-            <h2>Tokyo (JPN)</h2>
+            <h2>{{ tiketDetail.city_arrived.toUpperCase() }} ({{tiketDetail.country_arrived}})</h2>
           </span>
           <span>
             <p>Monday, 20 July 20</p>
             <p>&middot;</p>
-            <p>6 Passenger</p>
+            <p>{{ tiketDetail.adult_person + tiketDetail.child_person }} Passenger</p>
             <p>&middot;</p>
-            <p>Economy</p>
+            <p>{{ tiketDetail.class }}</p>
           </span>
         </div>
       </div>
@@ -28,38 +28,113 @@
           <h2 @click="resetCheck">Reset</h2>
         </span>
 
-        <div class="box-filter" v-for="(filter, indexFilter) in filters" :key="filter.name">
-          <span @click="filter.collapse = !filter.collapse">
-            <h5>{{filter.name}}</h5>
-            <p>{{ filter.collapse ? '-' : '+' }}</p>
+        <div class="box-filter">
+          <span @click="collapse = !collapse">
+            <h5>Transit</h5>
+            <p>{{ collapse ? '-' : '+' }}</p>
           </span>
-          <div class="list-filter" :class="{ 'collapse': !filter.collapse }">
-            <span v-for="(li, IndexliFilter) in filter.li" :key="li.name">
-              <p>{{ li.name }}</p>
-              <input type="checkbox" name="chek" id="direct"
-              v-bind="checkbox" :checked="li.check" @change="filterCheckbox(filter, indexFilter, IndexliFilter)">
+          <div class="list-filter" :class="{ 'collapse': !collapse }">
+            <span>
+              <p>Direct</p>
+               <input type="checkbox" name="Transit" true-value="direct" false-value="" v-model="query.transit" @change="uncheck()">
+            </span>
+            <span>
+              <p>Transit</p>
+               <input type="checkbox" name="Transit" true-value="transit" false-value="" v-model="query.transit" @change="uncheck()">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseTwo = !collapseTwo">
+            <h5>Departure Time</h5>
+            <p>{{ collapseTwo ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseTwo }">
+             <span>
+              <p>00:00 - 06:00</p>
+               <input type="checkbox" name="time_departure" true-value="00:00-06:00" false-value="" v-model="query.time_departure" @change="uncheck()">
+            </span>
+            <span>
+              <p>06:00 - 12:00</p>
+               <input type="checkbox" name="time_departure" true-value="06:00-12:00" false-value="" v-model="query.time_departure" @change="uncheck()">
+            </span>
+             <span>
+              <p>12:00 - 18:00</p>
+               <input type="checkbox" name="time_departure" true-value="12:00-18:00" false-value="" v-model="query.time_departure" @change="uncheck()">
+            </span>
+            <span>
+              <p>18:00 - 24:00</p>
+               <input type="checkbox" name="time_departure" true-value="18:00-24:00" false-value="" v-model="query.time_departure" @change="uncheck()">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseThree = !collapseThree">
+            <h5>Time Arrived</h5>
+            <p>{{ collapseThree ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseThree }">
+             <span>
+              <p>00:00 - 06:00</p>
+               <input type="checkbox" name="time_arrived" true-value="00:00-06:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','00:00-06:00')">
+            </span>
+            <span>
+              <p>06:00 - 12:00</p>
+               <input type="checkbox" name="time_arrived" true-value="06:00-12:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','06:00-12:00')">
+            </span>
+             <span>
+              <p>12:00 - 18:00</p>
+               <input type="checkbox" name="time_arrived" true-value="12:00-18:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','12:00-18:00')">
+            </span>
+            <span>
+              <p>18:00 - 24:00</p>
+               <input type="checkbox" name="time_arrived" true-value="18:00-24:00" false-value="" v-model="query.time_arrived" @change="uncheck('time_arrived','18:00-24:00')">
+            </span>
+          </div>
+        </div>
+
+        <div class="box-filter">
+          <span @click="collapseFour = !collapseFour">
+            <h5>Airlines</h5>
+            <p>{{ collapseFour ? '-' : '+' }}</p>
+          </span>
+          <div class="list-filter" :class="{ 'collapse': !collapseFour }">
+             <span>
+              <p>Air Asia</p>
+               <input type="checkbox" name="name_maskapai" true-value="air_asia" false-value="" v-model="query.name_maskapai" @change="uncheck">
+            </span>
+            <span>
+              <p>Garuda Indonesia</p>
+               <input type="checkbox" name="name_maskapai" true-value="garuda" false-value="" v-model="query.name_maskapai" @change="uncheck">
+            </span>
+             <span>
+              <p>Lion Air</p>
+               <input type="checkbox" name="name_maskapai" true-value="lion_air" false-value="" v-model="query.name_maskapai" @change="uncheck">
             </span>
           </div>
         </div>
 
       </div>
       <div class="list-ticket">
-        <div class="box-list-ticket">
+        <h1 v-if="dataTickets === 'NotFound'">NOT FOUND</h1>
+        <div v-else-if="dataTickets.message === 'get all'" class="box-list-ticket" v-for="tkt in dataTickets.result" :key="tkt.id">
           <div class="ticket-title">
-            <img src="../../../../public/img/icons/ticket_d/garuda-indonesia-logo-BD82882F07-seeklogo 1.png" alt="logo">
-            <p>Garuda Indonesia</p>
+            <img :src="tkt.images" alt="logo">
+            <p>{{ tkt.name_maskapai.toUpperCase().replace('_', ' ')  }}</p>
           </div>
           <div class="ticket-detail">
               <div class="info-detail">
                 <div class="flight-route">
                   <span>
-                    <h1>IDN</h1>
-                    <p>12:23</p>
+                    <h1>{{ tkt.country_departure }}</h1>
+                    <p>{{ tkt.time_departure.slice(0,5) }}</p>
                   </span>
                     <img src="../../../../public/img/icons/ticket_d/flightgrey.png" alt="">
                   <span>
-                    <h1>JPN</h1>
-                    <p>15:21</p>
+                    <h1>{{ tkt.country_arrived }}</h1>
+                    <p>{{ tkt.time_arrived.slice(0,5) }}</p>
                   </span>
                 </div>
 
@@ -75,11 +150,11 @@
                 </div>
 
                 <div class="flight-price">
-                  <h5>IDR 250.000</h5>
+                  <h5>Rp. {{ tkt.price.toLocaleString('id-ID') }}</h5>
                   <p>/pax</p>
                 </div>
               </div>
-              <button>SELECT</button>
+              <button @click="toPage(tkt)">SELECT</button>
           </div>
           <span><p>View Details ></p></span>
         </div>
@@ -89,116 +164,56 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'Ticket',
+  computed: {
+    ...mapState(['dataTickets']),
+    tiketDetail () {
+      return this.dataTickets.result[0]
+    }
+  },
   data () {
     return {
+      tiketdDetailLocal: [],
       checkbox: '',
-      filters: [
-        {
-          name: 'Transit',
-          nameData: 'transit',
-          li: [
-            {
-              name: 'Direct',
-              check: false,
-              query: '&transit=direct'
-            },
-            {
-              name: 'Transit',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Departure Time',
-          nameData: 'time_departure',
-          li: [
-            {
-              name: '00:00-06:00',
-              check: false
-            },
-            {
-              name: '07:30-10:00',
-              check: false
-            },
-            {
-              name: '20:00-00:30',
-              check: false
-            },
-            {
-              name: '10:00-12:30',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Time Arrived',
-          nameData: 'time_arrived',
-          li: [
-            {
-              name: '00:00-06:00',
-              check: false
-            },
-            {
-              name: '07:30-10:00',
-              check: false
-            },
-            {
-              name: '20:00-00:30',
-              check: false
-            },
-            {
-              name: '10:00-12:30',
-              check: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          name: 'Airlines',
-          nameData: 'name_maskapai',
-          li: [
-            {
-              name: 'Garuda Indonesia',
-              check: false
-            },
-            {
-              name: 'Air Asia',
-              check: false
-            },
-            {
-              name: 'City Link',
-              check: false
-            }
-          ],
-          collapse: false
-        }
-      ],
-      query: []
+      collapse: false,
+      collapseTwo: false,
+      collapseThree: false,
+      collapseFour: false,
+      query: {
+        transit: '',
+        time_departure: '',
+        time_arrived: '',
+        name_maskapai: ''
+      },
+      search: {
+        class: '',
+        child_person: 0,
+        adult_person: 0,
+        date_departure: '',
+        ticket_type: 'one_way',
+        city_departure: 'City',
+        city_arrived: 'City',
+        country_departure: 'Country',
+        country_arrived: 'Country'
+      }
     }
   },
   methods: {
+    ...mapActions(['getDataSearch']),
+    toPage (tkt) {
+      this.$router.push(`/main/ticket/${tkt.id}`)
+    },
     resetCheck () {
       const data = this.filters
       data.map((e) => {
         e.li.check = false
       })
     },
-    filterCheckbox (filter, indexFilter, IndexliFilter) {
-      this.filters[indexFilter].li[IndexliFilter].checkbox = !this.filters[indexFilter].li[IndexliFilter].checkbox
-      if (this.filters[indexFilter].li[IndexliFilter].checkbox) {
-        this.query.push({ query: `&${this.filters[indexFilter].nameData}=${this.filters[indexFilter].li[IndexliFilter].name}` })
-        this.query.map((e) => {
-          console.log(e.query)
-        })
-        // console.log(t)
-      } else {
-        console.log(this.filters[indexFilter].li[IndexliFilter].name + ' is = ' + this.filters[indexFilter].li[IndexliFilter].checkbox)
-      }
-      console.log(this.query)
+    uncheck () {
+      this.getDataSearch({ search: this.tiketDetail, query: this.query })
     }
   }
 }
@@ -478,6 +493,7 @@ export default {
   width: 100px;
   height: 50px;
   margin-right: 25px;
+  object-fit: cover;
 }
 .ticket-title p {
   font-family: Poppins;

@@ -1,30 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import router from '../router/index'
-import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
-export default
-new Vuex.Store({
+export default new Vuex.Store({
   state: {
-    city_departure: '',
-    country_departure: '',
-    country_arrived: '',
-    ticket_type: '',
-    date_departure: '',
-    child_person: '',
-    adult_person: '',
-    class: '',
-    time_departure: '',
-    time_arrived: '',
-    name_maskapai: '',
-    transit: '',
     myProfile: {},
-    detailMyBooking: {},
-    detailMyTicket: {},
-    myBooking: [],
     tickets: [
       {
         id: 1,
@@ -46,25 +28,64 @@ new Vuex.Store({
         adult_person: 4,
         transit: 'direct',
         class: 'economy'
+      },
+      {
+        id: 2,
+        images: 'https://i.pinimg.com/originals/2e/f6/e2/2ef6e2cc6b19f94dfd22c9b61e1d16de.png',
+        name_maskapai: 'garuda',
+        city_departure: 'jakarta',
+        country_departure: 'IDN',
+        city_arrived: 'seol',
+        country_arrived: 'KOR',
+        date_departure: '2021-01-29',
+        time_departure: '19:28:55',
+        date_arrived: '2021-02-22',
+        time_arrived: '22:28:55',
+        date_return: '2021-04-22',
+        time_return: '02:35:25',
+        ticket_type: 'round_trip',
+        price: 2550000,
+        child_person: 2,
+        adult_person: 4,
+        transit: 'transit',
+        class: 'first_class'
       }
-    ]
+    ],
+    search: {},
+    dataUser: [],
+    dataTickets: []
   },
   mutations: {
+    NOTFOUND (state, payload) {
+      state.dataTickets = payload
+    },
+    DATA_TICKETS (state, payload) {
+      state.dataTickets = payload
+    },
+    DATA_USER (state, payload) {
+      state.dataUser = payload
+    },
     SET_MY_PROFILE (state, payload) {
       state.myProfile = payload
     },
+    SET_FILTER (state, payload) {
+      state.search.transit = payload.transit
+      state.search.time_departure = payload.time_departure
+      state.search.time_arrived = payload.time_arrived
+      state.search.name_maskapai = payload.name_maskapai
+    },
     SET_CITIES (state, payload) {
-      state.city_departure = payload.city_departure
-      state.country_arrived = payload.country_arrived
-      state.ticket_type = payload.ticket_type
-      state.date_departure = payload.date_departure
-      state.child_person = payload.child_person
-      state.adult_person = payload.adult_person
-      state.class = payload.class
-      state.time_departure = payload.time_departure
-      state.time_arrived = payload.time_arrived
-      state.name_maskapai = payload.name_maskapai
-      state.transit = payload.transit
+      state.search.city_departure = payload.city_departure
+      state.search.country_arrived = payload.country_arrived
+      state.search.ticket_type = payload.ticket_type
+      state.search.date_departure = payload.date_departure
+      state.search.child_person = payload.child_person
+      state.search.adult_person = payload.adult_person
+      state.search.class = payload.class
+      state.search.time_departure = payload.time_departure
+      state.search.time_arrived = payload.time_arrived
+      state.search.name_maskapai = payload.name_maskapai
+      state.search.transit = payload.transit
     },
     SET_MY_BOOKING (state, payload) {
       state.myBooking = payload
@@ -77,16 +98,12 @@ new Vuex.Store({
     }
   },
   actions: {
-    getMyProfile (context) {
+    getDataSearch (context, { search, query }) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_BASE_URL}/users/my-profile`)
+        axios.get(`${process.env.VUE_APP_BASE_URL}/ticket/ticketing?city_departure=${search.city_departure}&country_departure=${search.country_departure}&city_arrived=${search.city_arrived}&country_arrived=${search.country_arrived}&ticket_type=${search.ticket_type}&date_departure=${search.date_departure}&child_person=${search.child_person}&adult_person=${search.adult_person}&class=${search.class}&transit=${query.transit}&time_departure=${query.time_departure}&time_arrived=${query.time_arrived}&name_maskapai=${query.name_maskapai}`)
           .then((result) => {
-            console.log(result)
-            context.commit('SET_MY_PROFILE', result.data.result)
             resolve(result)
-          }).catch((err) => {
-            console.log(err)
-            reject(err)
+            context.commit('DATA_TICKETS', result.data)
           })
       })
     },
@@ -103,16 +120,13 @@ new Vuex.Store({
           })
       })
     },
-    getDetailMyBooking (context, idBooking) {
+    getMyProfile (context) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_BASE_URL}/booking/my-booking-detail/${idBooking}`)
+        axios.get(`${process.env.VUE_APP_BASE_URL}/users/my-profile`)
           .then((result) => {
-            const resData = result.data.result[0]
-            const myTicket = result.data.result[0].ticket
-            console.log(resData)
-            console.log(myTicket)
-            context.commit('SET_DETAIL_BOOKING', resData)
-            context.commit('SET_MY_TICKET', myTicket)
+            console.log(result)
+            context.commit('SET_MY_PROFILE', result.data.result)
+            context.commit('DATA_USER', result.data.result)
             resolve(result)
           }).catch((err) => {
             console.log(err)
@@ -155,11 +169,6 @@ new Vuex.Store({
           })
       })
     },
-    logout (context) {
-      localStorage.clear()
-      Swal.fire('Logout Success', 'see you again', 'success')
-      router.push({ name: 'Login' })
-    },
     interceptorRequest () {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
@@ -172,52 +181,31 @@ new Vuex.Store({
       axios.interceptors.response.use(function (response) {
         return response
       }, function (error) {
-        console.log(error.response)
         if (error.response.status === 401) {
           if (error.response.data.message.message === 'Invalid Token') {
             localStorage.removeItem('token')
             localStorage.removeItem('id')
-            context.commit('REMOVE_ALL')
-            Swal.fire('Invalid Token', 'Please login again', 'error')
-            router.push({ name: 'Login' })
+            // context.commit('REMOVE_ALL')
           } else if (error.response.data.message.message === 'Token Expired') {
             localStorage.removeItem('token')
             localStorage.removeItem('id')
-            context.commit('REMOVE_ALL')
-            Swal.fire('Token Expired', 'Please aogin again', 'error')
-            router.push({ name: 'Login' })
+            // context.commit('REMOVE_ALL')
           }
         }
         return Promise.reject(error)
       })
     },
-    getallcities (context, payload) {
+    createBooking (context, data) {
       return new Promise((resolve, reject) => {
-        axios.post(`${process.env.VUE_APP_BASE_URL}/ticket/ticketing?city_departure=${context.state.city_departure}&country_departure=${context.state.country_departure}&city_arrived=${context.state.city_arrived}&country_arrived=${context.state.country_arrived}&ticket_type=${context.state.ticket_type}&date_departure=${context.state.date_departure}&child_person=${context.state.child_person}&class=${context.state.class}=&time_departure=${context.state.time_departure}&time_arrived=${context.state.time_arrived}&name_maskapai=${context.state.name_maskapai}&transit=${context.state.transit}`, payload)
-          .then((res) => {
-            resolve(res)
-          })
-          .catch((err) => {
-            reject(err)
-          })
+        axios.post(`${process.env.VUE_APP_BASE_URL}/booking/create/`, data).then((result) => {
+          resolve(result)
+        })
       })
     }
   },
   getters: {
     setMyProfile (state) {
       return state.myProfile
-    },
-    setMyBooking (state) {
-      const result = state.myBooking
-      var parsedobj = JSON.parse(JSON.stringify(result))
-      return parsedobj
-    },
-    setDetailMyBooking (state) {
-      return state.detailMyBooking
-    },
-    setDetailMyTicket (state) {
-      console.log(state.detailMyTicket)
-      return state.detailMyTicket
     }
   },
   modules: {
