@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Landing from '../views/Landing.vue'
+import Swal from 'sweetalert2'
 
 // Auth
 import MainAuth from '../views/auth/MainAuth.vue'
@@ -15,9 +16,15 @@ import Ticket from '../views/main/ticket/Ticket.vue'
 import DetailTicket from '../views/main/ticket/DetailTicket.vue'
 import MyBook from '../views/main/book/MyBook.vue'
 import DetailBook from '../views/main/book/DetailBook.vue'
+import Payment from '../views/main/book/Payment.vue'
 
 // Profile
 import Profile from '../views/main/user/Profile.vue'
+
+// Admin
+import MainAdmin from '../views/admin/MainAdmin.vue'
+import Admin from '../views/admin/Admin.vue'
+import AddTicket from '../views/admin/AddTicket.vue'
 
 Vue.use(VueRouter)
 
@@ -25,7 +32,10 @@ const routes = [
   {
     path: '/',
     name: 'Landing',
-    component: Landing
+    component: Landing,
+    meta: {
+      requiresVisitor: true
+    }
   },
   {
     path: '/auth',
@@ -61,7 +71,7 @@ const routes = [
         }
       },
       {
-        path: 'createnewpass',
+        path: 'createnewpass/:token',
         name: 'CreateNewPass',
         component: CreateNewPass,
         meta: {
@@ -81,7 +91,7 @@ const routes = [
     children: [
       {
         path: 'search',
-        name: 'Landing',
+        name: 'Search',
         component: Landing,
         meta: {
           requiresAuth: true
@@ -126,6 +136,40 @@ const routes = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: 'payment/:id',
+        name: 'Payment',
+        component: Payment,
+        meta: {
+          requiresAuth: true
+        }
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    name: 'MainAdmin',
+    component: MainAdmin,
+    meta: {
+      requiresAdmin: true
+    },
+    children: [
+      {
+        path: 'ticket',
+        name: 'Admin',
+        component: Admin,
+        meta: {
+          requiresAdmin: true
+        }
+      },
+      {
+        path: 'addticket',
+        name: 'AddTicket',
+        component: AddTicket,
+        meta: {
+          requiresAdmin: true
+        }
       }
     ]
   }
@@ -138,11 +182,27 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    const admin = `${process.env.VUE_APP_ROLE_ADMIN}`
+    const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
+    if (admin !== id) {
+      next({
+        path: '/main/search'
+      })
+    } else if (!token) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.getItem('token')) {
       next({
         path: '/auth/login'
       })
+      Swal.fire('You must login', '', 'error')
     } else {
       next()
     }
@@ -151,6 +211,7 @@ router.beforeEach((to, from, next) => {
       next({
         path: '/main/search'
       })
+      Swal.fire('You alreadry login', '', 'error')
     } else {
       next()
     }
