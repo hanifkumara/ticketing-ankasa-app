@@ -35,7 +35,8 @@ const routes = [
     component: Landing,
     meta: {
       requiresVisitor: true
-    }
+    },
+    redirect: '/auth/login'
   },
   {
     path: '/auth',
