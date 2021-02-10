@@ -3,7 +3,7 @@
 <p align="center">
   <h3 align="center">Ticketing Ankasa</h3>
   <p align="center">
-    <image align="center" width="200" src='./screenshots/logo.PNG' />
+    <image align="center" width="200" src='./screenshots/logo.png' />
   </p>
 </p>
 
@@ -59,7 +59,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
 ```sh
-git clone https://github.com/hanifkumara/telegram-app.git
+git clone https://github.com/hanifkumara/ticketing-ankasa-app.git
 ```
 2. Install NPM packages
 
@@ -69,8 +69,7 @@ npm install
 
 3. Add .env file at root folder project, and add following
 ```sh
-VUE_APP_SERVICE_API= http://localhost:5000/api/v1
-VUE_APP_SOCKET_URL= http://localhost:5000
+VUE_APP_SERVICE_API= http://localhost:3000/api
 ```
 
 ### Compiles and hot-reloads for development
@@ -94,11 +93,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ##  Screenshots
 <p align='center'>
   <span>
-    <image width="200" src='./screenshots/screencapture-localhost-8080-auth-register-2021-01-02-01_33_44.png' />
-    <image width="200" src='./screenshots/screencapture-localhost-8080-auth-login-2021-01-02-01_34_34.png' />
-    <image width="200" src='./screenshots/screencapture-localhost-8080-main-chat-list-2021-01-02-01_36_00.png' />
-    <image width="200" src='./screenshots/screencapture-localhost-8080-main-chat-list-2021-01-02-01_51_49.png' />
-    <image width="200" src='./screenshots/screencapture-localhost-8080-main-chat-list-2021-01-02-01_53_59.png' />
+    <image width="200" src='./screenshots/screencapture-localhost-8080-auth-login-2021-02-10-09_06_39.png' />
+    <image width="200" src='./screenshots/screencapture-localhost-8080-auth-signup-2021-02-10-09_06_57.png' />
+    <image width="200" src='./screenshots/screencapture-localhost-8080-main-mybook-2021-02-10-09_07_43.png' />
+    <image width="200" src='./screenshots/screencapture-localhost-8080-main-payment-be4911bd-2021-02-10-09_08_25.png' />
+    <image width="200" src='./screenshots/screencapture-localhost-8080-main-mybook-37d2c0d1-2021-02-10-09_08_03.png' />
    
 ## Contributing
 
@@ -112,11 +111,11 @@ Contributions are what make the open source community such an amazing place to b
  
 ## Project Related
 
-[https://github.com/hanifkumara/telegram-app-api](https://github.com/hanifkumara/telegram-app-api)
+[https://github.com/hanifkumara/ticketing-ankasa-api](https://github.com/hanifkumara/ticketing-ankasa-api)
  
 ## Contact
 My Email : hanifkumara00@gmail.com
 
 LinkedIn : [https://www.linkedin.com/in/hanifkumara/](https://www.linkedin.com/in/hanifkumara/)
 
-Project Link: [https://github.com/hanifkumara/telegram-app](https://github.com/hanifkumara/telegram-app)
+Project Link: [https://github.com/hanifkumara/ticketing-ankasa-app](https://github.com/hanifkumara/ticketing-ankasa-app)
