@@ -108,7 +108,7 @@ export default {
       axios.post(`${process.env.VUE_APP_BASE_URL}/auth/register`, data)
         .then((res) => {
           console.log(res.data)
-          Swal.fire('Success', 'Let\'s go login now', 'success')
+          Swal.fire('Success', "Let's go login now", 'success')
           this.$router.push('/auth/login')
         })
         .catch((err) => {
